@@ -37,14 +37,14 @@ npm-debug.log
 # BUCK
 buck-out/
 \.buckd/
-android/app/libs
-android/keystores/debug.keystore
-.buckconfig
-.flowconfig
-.gitignore
-.watchmanconfig
-android/
-index.android.js
-index.ios.js
-ios/
-package.json
+#android/app/libs
+#android/keystores/debug.keystore
+#.buckconfig
+#.flowconfig
+#.gitignore
+#.watchmanconfig
+#android/
+#index.android.js
+#index.ios.js
+#ios/
+#package.json
