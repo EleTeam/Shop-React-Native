@@ -19,6 +19,8 @@ import FoodCompare from './foodCompareReducer';
 import FoodInfo from './foodInfoReducer';
 import Search from './searchReducer';
 import User from './userReducer';
+import ProductReducer from './productReducer';
+
 
 export default rootReducer = combineReducers({
     Strolling,
@@ -28,4 +30,5 @@ export default rootReducer = combineReducers({
     FoodInfo,
     Search,
     User,
+    ProductReducer,
 })
