@@ -22,17 +22,23 @@ import {
     TextInput,
     Dimensions,
 } from 'react-native';
+import Header from '../components/Header';
 
 class UserLoginPage extends React.Component {
     render() {
         return (
             <View>
+                <Header
+                    leftIcon='angle-left'
+                    leftIconAction={()=>this.props.navigator.pop()}
+                    title='手机登录'
+                />
                 <Image source={require('../images/bg.png')} style={{resizeMode: 'stretch'}}>
                     <View style={styles.loginMain}>
                         <View style={styles.loginMainCon}>
                             <View style={styles.comCulture}>
-                                <Text style={[styles.textCenter,{color:'#ccc'}]}>Welcome</Text>
-                                <Text style={[styles.textCenter,{color:'#ccc'}]}>You are the best.</Text>
+                                <Text style={[styles.textCenter,{color:'#ccc'}]}>欢迎光临</Text>
+                                <Text style={[styles.textCenter,{color:'#ccc'}]}>请用手机登录</Text>
                             </View>
                             <View style={styles.formStyle}>
                                 <View style={[styles.formInput,styles.formInputSplit]}>
