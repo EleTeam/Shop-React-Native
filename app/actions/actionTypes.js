@@ -9,11 +9,21 @@
  */
 
 /**
- * action类型
+ * redux actions 类型
  */
-// 轮播actions
+
+'use strict';
+
+// 轮播
 export const FETCH_BANNER_LIST = 'FETCH_BANNER_LIST';
 export const RECEIVE_BANNER_LIST = 'RECEIVE_BANNER_LIST'
+
+// 用户
+export const kUserView              = 'kUserView';
+export const kUserLoggedDoing       = 'kUserLoggedDoing';
+export const kUserLoggedIn          = 'kUserLoggedIn';
+export const kUserLoggedOut         = 'kUserLoggedOut';
+export const kUserLoggedError       = 'kUserLoggedError';
 
 // 逛吃列表actions
 export const FETCH_FEED_LIST = 'FETCH_FEEDS_LIST';

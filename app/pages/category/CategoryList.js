@@ -8,6 +8,8 @@
  * @license The MIT License (MIT)
  */
 
+'use strict';
+
 import React from 'react';
 import { StyleSheet, View, ListView, Text, TouchableOpacity } from 'react-native';
 
@@ -17,22 +19,14 @@ export default class CategoryList extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(this._genRows()),
+            dataSource: ds.cloneWithRows(this.props.categories),
         };
-    }
-
-    _genRows() {
-        const dataBlob = [];
-        for(let i = 0 ; i< 200 ; i ++ ){
-            dataBlob.push("aa"+i);
-        }
-        return dataBlob;
     }
 
     _renderRow(rowData, sectionId, rowId) {
         return (
             <View>
-                <Text>{"rowData:" + rowData + "sectionId:" + sectionId + "rowId:"+rowId}</Text>
+                <Text>{rowId}</Text>
             </View>
         );
     }

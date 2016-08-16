@@ -8,6 +8,8 @@
  * @license The MIT License (MIT)
  */
 
+'user strict';
+
 import React from 'react';
 import {
     StyleSheet,
@@ -16,9 +18,14 @@ import {
     Image,
     Switch,
     TouchableOpacity,
+    InteractionManager,
 } from 'react-native';
+import UserLoginPage from './UserLoginPage';
 
 export default class User extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         let titles = ['清除缓存', '关于我', '将ShopReactNative分享给朋友'];
@@ -28,7 +35,7 @@ export default class User extends React.Component {
                 <View style={styles.header}>
                     <Text style={{fontSize: 17}}>我的</Text>
                 </View>
-                <HeadView />
+                <HeadView {...this.props} />
                 <JurisdictionView />
                 <View style={styles.switchCell}>
                     <View style={{}}>
@@ -61,18 +68,37 @@ export default class User extends React.Component {
 }
 
 class HeadView extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
 
         return (
             <View>
                 <Image style={styles.myBgImage} source={{uri: 'img_my_bg'}}>
                     <Image style={styles.headIcon} source={{uri: 'img_default_head'}}/>
-                    <TouchableOpacity style={styles.login}>
+                    <TouchableOpacity
+                        style={styles.login}
+                        onPress={this._onPressFeedItem.bind(this)}
+                    >
                         <Text style={{color: 'white'}}>点击登录</Text>
                     </TouchableOpacity>
                 </Image>
             </View>
         )
+    }
+
+    _onPressFeedItem(feedItem) {
+        InteractionManager.runAfterInteractions(() => {
+            this.props.navigator.push({
+                name: 'UserLoginPage',
+                component: UserLoginPage,
+                passProps: {
+                    feed: feedItem,
+                }
+            })
+        });
     }
 }
 

@@ -8,6 +8,8 @@
  * @license The MIT License (MIT)
  */
 
+'use strict';
+
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers/rootRudcer';
