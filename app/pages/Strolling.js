@@ -33,7 +33,7 @@ let canLoadMore = false;
 let isRefreshing = false;
 let isLoading = true;
 
-export default class Main extends React.Component {
+export default class Strolling extends React.Component {
 
     constructor(props) {
         super(props);

@@ -24,7 +24,8 @@ export let listCategoryWithProduct = () => {
         dispatch({'type': types.kCategoryListWithProduct});
         Util.get(url,
             (response) => {
-                dispatch({'type': types.kCategoryListWithProduct, 'categories': response});
+                response = ['a','b','c'];
+                dispatch({'type': types.kCategoryListWithProductDone, 'categories': response});
             },
             (error) => {
                 Alert.alert(error.message);

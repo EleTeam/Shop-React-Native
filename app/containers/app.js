@@ -8,7 +8,7 @@
  * @license The MIT License (MIT)
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Navigator,
     View,
@@ -17,9 +17,8 @@ import {
 import StatusBarIOS from '../components/StatusBarIOS';
 import TabBarView from '../containers/TabBarView';
 
-class App extends React.Component {
+class App extends Component {
     render() {
-
         return (
             <View style={{flex: 1}}>
                 <StatusBarIOS barStyle="light-content"/>

@@ -9,7 +9,7 @@
  */
 
 /**
- * redux actions - 用户模块
+ * action 创建函数 - 用户模块
  */
 
 'user strict';

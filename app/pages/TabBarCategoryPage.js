@@ -16,6 +16,7 @@ import {
     View,
     Text,
     StyleSheet,
+    ListView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { listCategoryWithProduct } from '../actions/productActions';
@@ -37,10 +38,30 @@ class TabBarCategoryPage extends Component {
 }
 
 class CategoryList extends Component {
+    constructor(props) {
+        super(props);
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows(this.props),
+        };
+    }
+
+    _renderRow(rowData, sectionId, rowId) {
+        return (
+            <View>
+                <Text>{sectionId}</Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View style={styles.container_category}>
-
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={this._renderRow.bind(this)}
+                    enableEmptySections={true}
+                />
             </View>
         )
     }
@@ -87,10 +108,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function select(store){
-    return {
-
-    }
-}
-
-export default connect(select)(TabBarCategoryPage);
+export default connect((state)=>{
+    const { page } = state;
+    return { page };
+})(TabBarCategoryPage);

@@ -8,7 +8,7 @@
  * @license The MIT License (MIT)
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
     TabBarIOS,
 } from 'react-native';
@@ -26,27 +26,22 @@ const tabBarItems = [
     {title: '购物车', icon: 'shopping-cart', component: StrollingContainer},
     {title: '优惠', icon: 'folder-o', component: StrollingContainer},
     {title: '我的', icon: 'user', component: UserContainer},
-]
+];
 
-export default class TabBarView extends React.Component {
-
+export default class TabBarView extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             selectedTab: tabBarItems[0].title,
         };
     }
 
     render() {
-        
         return (
             <TabBarIOS tintColor={Constants.colors.themeColor}>
                 {
                     tabBarItems.map((controller, i) => {
-
                         let Component = controller.component;
-
                         return (
                             <FontAwesome.TabBarItem
                                 key={i}

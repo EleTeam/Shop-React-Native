@@ -8,11 +8,11 @@
  * @license The MIT License (MIT)
  */
 
-/**
- * redux actions 类型
- */
-
 'use strict';
+
+/**
+ * action 类型
+ */
 
 //公用类型
 export const kActionError                   = 'kActionError';

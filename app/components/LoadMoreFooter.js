@@ -10,7 +10,7 @@
 
 import React from 'react';
 import {
-    ActivityIndicatorIOS,
+    ActivityIndicator,
     View,
     Text,
     StyleSheet,
@@ -20,7 +20,7 @@ export default class LoadMoreFooter extends React.Component {
     render() {
         return (
             <View style={styles.footer}>
-                <ActivityIndicatorIOS />
+                <ActivityIndicator />
                 <Text style={styles.footerTitle}>正在加载更多……</Text>
             </View>
         )
