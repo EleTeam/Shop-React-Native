@@ -15,21 +15,28 @@
 'user strict';
 
 import * as types from './actionTypes';
+import * as urls from '../common/constants_url';
 import Util from '../common/utils';
 import { Alert } from 'react-native';
 
-export let listCategoryWithProduct = () => {
-    let url = 'http://local.eleteamapi.ygcr8.com/v1/category/list-with-product';
+/**
+ *
+ * @param isLoading
+ * @returns {function(*)}
+ */
+export let categoryListWithProduct = (isLoading) => {
+    let url = urls.kUrlCategoryListWithProduct;
     return (dispatch) => {
-        dispatch({'type': types.kCategoryListWithProduct});
+        dispatch({'type': types.kCategoryListWithProduct, 'isLoading':isLoading});
         Util.get(url,
             (response) => {
-                response = ['a','b','c'];
-                dispatch({'type': types.kCategoryListWithProductDone, 'categories': response});
+                // Alert.alert(response);
+                let categories = response.data.categories;
+                dispatch({'type': types.kCategoryListWithProductReceived, 'isLoading':false, 'categories': categories});
             },
             (error) => {
-                Alert.alert(error.message);
-                dispatch({'type': types.kActionError});
+                // Alert.alert(error.message);
+                dispatch({'type': types.kActionError, 'isLoading':false});
             });
     }
 }

@@ -18,9 +18,8 @@ export let fetchBanners = ()=> {
     return dispatch => {
         // 请求轮播数据
         dispatch(fetchBannerList());
-        
         return Util.get(URL, (response) => {
-            dispatch(receiveBannerList(response.banners))
+            dispatch(receiveBannerList(response.banners));
         }, (error) => {
             console.log('Fetch banner list error: ' + error);
             dispatch(receiveBannerList([]));
@@ -41,18 +40,28 @@ let receiveBannerList = (bannerList) => {
     }
 }
 
+//异步调用服务端
 export let fetchFeeds = (page, isLoadMore, isRefreshing, isLoading)=> {
     let URL = 'http://food.boohee.com/fb/v1/feeds?page=' + page + '&per=10';
-
     return dispatch => {
         // 请求轮播数据
         dispatch(fetchFeedList(isLoadMore, isRefreshing, isLoading));
 
         return Util.get(URL, (response) => {
-            dispatch(receiveFeedList(response.feeds))
+            dispatch(receiveFeedList(response.feeds));
         }, (error) => {
             dispatch(receiveFeedList([]));
         });
+
+        //模拟网络延迟
+        // function fetching() {
+        //     Util.get(URL, (response) => {
+        //         dispatch(receiveFeedList(response.feeds));
+        //     }, (error) => {
+        //         dispatch(receiveFeedList([]));
+        //     });
+        // }
+        // setTimeout(fetching, 3000);
     }
 }
 

@@ -55,17 +55,20 @@ export default class Strolling extends React.Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => {
-            const {dispatch} = this.props;
-            dispatch(fetchBanners());
-            dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
-        });
+        //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
+        // InteractionManager.runAfterInteractions(() => {
+        //     const {dispatch} = this.props;
+        //     dispatch(fetchBanners());
+        //     dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
+        // });
+
+        const {dispatch} = this.props;
+        dispatch(fetchBanners());
+        dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
     }
 
     render() {
-        
         const {Strolling} = this.props;
-
         let bannerList = Strolling.bannerList;
         let feedList = Strolling.feedList;
         let sourceData = {'banner': [bannerList], 'feed': feedList};

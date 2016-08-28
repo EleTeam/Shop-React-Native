@@ -12,6 +12,14 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export default class ProductList extends React.Component {
+    constructor(props) {
+        super(props);
+        // Alert.alert(props.categories);
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows(this.props.categories),
+        };
+    }
     render() {
         return (
             <View style={styles.container}>

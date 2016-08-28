@@ -11,28 +11,17 @@
 'use strict';
 
 import React from 'react';
-import { StyleSheet, View, ListView, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ListView, Text, TouchableOpacity, Alert } from 'react-native';
 
 export default class CategoryList extends React.Component {
 
     constructor(props) {
         super(props);
+        // Alert.alert(this.props.categories);
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(this.props.categories),
         };
-    }
-
-    _renderRow(rowData, sectionId, rowId) {
-        return (
-            <View>
-                <Text>{rowId}</Text>
-            </View>
-        );
-    }
-
-    _pressRow(rowId){
-        alert("hellow"+rowId);
     }
 
     render() {
@@ -42,10 +31,19 @@ export default class CategoryList extends React.Component {
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this._renderRow.bind(this)}
+                        enableEmptySections={true}
                     />
                 </View>
             </TouchableOpacity>
         )
+    }
+
+    _renderRow(rowData, sectionId, rowId) {
+        return (
+            <View>
+                <Text>{rowId}</Text>
+            </View>
+        );
     }
 }
 

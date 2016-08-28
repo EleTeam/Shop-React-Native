@@ -9,27 +9,28 @@
  */
 
 import * as types from '../actions/actionTypes';
+import {Alert} from 'react-native';
 
 const initialState = {
     categories: [],
-    isFetching: true,
-}
+    isLoading: true,
+};
 
 let productReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.kCategoryListWithProduct:
             return Object.assign({}, state, {
-                ...state,
-                isFetching: true
-            })
-        case types.kCategoryListWithProductDone:
+                ...state
+            });
+        case types.kCategoryListWithProductReceived:
+            // Alert.alert(action.categories);
             return Object.assign({}, state, {
                 categories: action.categories,
-                isFetching: false
-            })
+                isLoading: false,
+            });
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default productReducer;

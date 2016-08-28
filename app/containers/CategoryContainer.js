@@ -21,6 +21,8 @@ class CategoryContainer extends React.Component {
 }
 
 export default connect((state) => {
-    const {Category} = state;
-    return {Category}
+    const { productReducer } = state;
+    return {
+        productReducer
+    }
 })(CategoryContainer);

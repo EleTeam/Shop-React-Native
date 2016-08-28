@@ -22,15 +22,15 @@ export const FETCH_BANNER_LIST = 'FETCH_BANNER_LIST';
 export const RECEIVE_BANNER_LIST = 'RECEIVE_BANNER_LIST'
 
 // 用户
-export const kUserView                      = 'kUserView';
-export const kUserLoggedDoing               = 'kUserLoggedDoing';
-export const kUserLoggedIn                  = 'kUserLoggedIn';
-export const kUserLoggedOut                 = 'kUserLoggedOut';
-export const kUserLoggedError               = 'kUserLoggedError';
+export const kUserView                          = 'kUserView';
+export const kUserLoggedDoing                   = 'kUserLoggedDoing';
+export const kUserLoggedIn                      = 'kUserLoggedIn';
+export const kUserLoggedOut                     = 'kUserLoggedOut';
+export const kUserLoggedError                   = 'kUserLoggedError';
 
 //商品、商品目录
-export const kCategoryListWithProduct       = 'kCategoryListWithProduct';
-export const kCategoryListWithProductDone   = 'kCategoryListWithProductDone';
+export const kCategoryListWithProduct           = 'kCategoryListWithProduct';
+export const kCategoryListWithProductReceived   = 'kCategoryListWithProductReceived';
 
 // 逛吃列表actions
 export const FETCH_FEED_LIST = 'FETCH_FEEDS_LIST';
