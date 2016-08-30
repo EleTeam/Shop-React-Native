@@ -18,10 +18,23 @@ export default class CategoryList extends React.Component {
     constructor(props) {
         super(props);
         // Alert.alert(this.props.categories);
-        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+        this._renderRow = this._renderRow.bind(this);
+
+        let dataSource = new ListView.DataSource({
+            getRowData: (data, sectionId, rowId) => {
+                return data[sectionId][rowId];
+            },
+            getSectionHeaderData: (data, sectionId) => {
+                return data[sectionId];
+            },
+            rowHasChanged: (row1, row2) => row1 !== row2,
+            sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
+        });
+
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.categories),
-        };
+            dataSource: dataSource.cloneWithRows(props.categories)
+        }
     }
 
     render() {
@@ -38,10 +51,10 @@ export default class CategoryList extends React.Component {
         )
     }
 
-    _renderRow(rowData, sectionId, rowId) {
+    _renderRow(category, sectionId, rowId) {
         return (
             <View>
-                <Text>{rowId}</Text>
+                <Text>{category.name}</Text>
             </View>
         );
     }
