@@ -23,7 +23,9 @@ import {
 import {categoryListWithProduct} from '../actions/productActions';
 import Loading from '../components/Loading';
 
+//页面变量
 let isLoading = true;
+let products = [];
 
 export default class CategoryPage extends React.Component {
     constructor(props) {
@@ -42,13 +44,18 @@ export default class CategoryPage extends React.Component {
         const {productReducer} = this.props;
         let categories = productReducer.categories;
         // alert(productReducer.isLoading);
+        if (!productReducer.isLoading){
+            products = categories[0].products;
+            // Alert.alert(products);
+        }
+
         return (
             <View style={styles.container}>
                 {productReducer.isLoading ?
                     <Loading /> :
                     <View style={styles.container}>
                         <CategoryList categories={categories}/>
-                        <ProductList categories={categories}/>
+                        <ProductList/>
                     </View>
                 }
             </View>
@@ -59,7 +66,6 @@ export default class CategoryPage extends React.Component {
 class CategoryList extends React.Component {
     constructor(props) {
         super(props);
-        // Alert.alert(this.props.categories);
 
         this._renderRow = this._renderRow.bind(this);
 
@@ -95,17 +101,26 @@ class CategoryList extends React.Component {
 
     _renderRow(category, sectionId, rowId) {
         return (
-            <View>
-                <Text>{category.name}</Text>
-            </View>
+            <TouchableOpacity
+                style={styles.foodsCell}
+                onPress={this._onPressCategoryItem.bind(this, rowId)}
+            >
+                <View style={styles.categoryItem}>
+                    <Text>{category.name}</Text>
+                </View>
+            </TouchableOpacity>
         );
+    }
+
+    _onPressCategoryItem(rowId) {
+        products = this.props.categories[rowId];
+        // Alert.alert(products);
     }
 }
 
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
-        // Alert.alert(this.props.categories);
 
         this._renderRow = this._renderRow.bind(this);
 
@@ -121,7 +136,7 @@ class ProductList extends React.Component {
         });
 
         this.state = {
-            dataSource: dataSource.cloneWithRows(props.categories)
+            dataSource: dataSource.cloneWithRows(products)
         }
     }
 
@@ -137,10 +152,10 @@ class ProductList extends React.Component {
         )
     }
 
-    _renderRow(category, sectionId, rowId) {
+    _renderRow(product, sectionId, rowId) {
         return (
             <View>
-                <Text>{category.name}</Text>
+                <Text>{product.name}</Text>
             </View>
         );
     }
@@ -153,15 +168,16 @@ const styles = StyleSheet.create({
     },
     categoryList: {
         backgroundColor: '#88f0f3',
-        width: 80,
+        width: 70,
     },
     productList: {
         backgroundColor: '#aaaaf3',
         flex: 1,
     },
-    category:{
-        justifyContent: 'center',
-        alignItems: 'center',
+
+    categoryItem:{
+        alignItems: 'center',    //水平居中
+        justifyContent: 'center',//垂直居中
         height:50,
     },
     category_bg_select:{
@@ -174,4 +190,4 @@ const styles = StyleSheet.create({
         backgroundColor:'#eef0f3',
         height:1,
     },
-})
+});
