@@ -10,12 +10,12 @@
 
 import React from 'react';
 import {connect} from 'react-redux';
-import Category from '../pages/category/Category';
+import CategoryPage from '../pages/CategoryPage';
 
 class CategoryContainer extends React.Component {
     render() {
         return (
-            <Category {...this.props} />
+            <CategoryPage {...this.props} />
         )
     }
 }
