@@ -31,6 +31,8 @@ export const kUserLoggedError                   = 'kUserLoggedError';
 //商品、商品目录
 export const kCategoryListWithProduct           = 'kCategoryListWithProduct';
 export const kCategoryListWithProductReceived   = 'kCategoryListWithProductReceived';
+export const kProductView                       = 'kProductView';
+export const kProductViewReceived               = 'kProductViewReceived';
 
 // 逛吃列表actions
 export const FETCH_FEED_LIST = 'FETCH_FEEDS_LIST';

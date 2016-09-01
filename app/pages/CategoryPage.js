@@ -16,12 +16,14 @@ import {
     View,
     ListView,
     Text,
+    Image,
     InteractionManager,
     TouchableOpacity,
     Alert
 } from 'react-native';
 import {categoryListWithProduct} from '../actions/productActions';
 import Loading from '../components/Loading';
+import ProductPage from '../pages/ProductPage';
 
 //页面变量
 let isLoading = true;
@@ -54,12 +56,16 @@ export default class CategoryPage extends React.Component {
                 {productReducer.isLoading ?
                     <Loading /> :
                     <View style={styles.container}>
-                        <CategoryList categories={categories}/>
-                        <ProductList/>
+                        <CategoryList categories={categories} {...this.props} />
+                        <ProductList {...this.props} />
                     </View>
                 }
             </View>
         )
+    }
+
+    setDataSourceForProductList(products) {
+
     }
 }
 
@@ -154,10 +160,34 @@ class ProductList extends React.Component {
 
     _renderRow(product, sectionId, rowId) {
         return (
-            <View>
-                <Text>{product.name}</Text>
-            </View>
+            <TouchableOpacity onPress={this._onPressProductItem.bind(this, product.id)}>
+                <View style={styles.productItem}>
+                    <Image
+                        style={styles.productImage}
+                        source={{uri: product.image_small}}
+                    />
+                    <View style={styles.productRight}>
+                        <Text>{product.name}</Text>
+                        <View style={{flexDirection:'row'}}>
+                            <Text>￥{product.price}</Text>
+                            <Text>￥{product.featured_price}</Text>
+                        </View>
+                        <Text>立减 ￥{product.price - product.featured_price}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
         );
+    }
+
+    _onPressProductItem(product_id) {
+        // Alert.alert(product_id);
+        InteractionManager.runAfterInteractions(() => {
+            this.props.navigator.push({
+                name: 'ProductPage',
+                component: ProductPage,
+                passProps: {...this.props, product_id:product_id}
+            })
+        });
     }
 }
 
@@ -167,12 +197,16 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     categoryList: {
-        backgroundColor: '#88f0f3',
+        backgroundColor: '#eee',
         width: 70,
     },
     productList: {
-        backgroundColor: '#aaaaf3',
         flex: 1,
+        backgroundColor: '#eee',
+    },
+    line:{
+        backgroundColor:'#eef0f3',
+        height:1,
     },
 
     categoryItem:{
@@ -184,10 +218,30 @@ const styles = StyleSheet.create({
         backgroundColor:'#d7ead6',
     },
     category_bg_normal:{
-        backgroundColor:'#ffffff',
+        backgroundColor:'#fff',
     },
-    line:{
-        backgroundColor:'#eef0f3',
-        height:1,
+
+    productItem: {
+        height: 80,
+        flexDirection:'row',
+        padding: 15,
+        marginBottom: 1,
+        backgroundColor:'#fff',
     },
+    productRight: {
+        flexDirection:'column',
+    },
+    productImage: {
+        width: 60,
+        height: 60,
+        marginRight: 15,
+    },
+    productPrice: {
+        fontSize: 24,
+        color: 'red',
+    },
+    productFeaturedPrice: {
+        fontSize: 14,
+        color: '#ddd',
+    }
 });

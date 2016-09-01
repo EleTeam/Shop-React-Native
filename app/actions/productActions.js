@@ -39,4 +39,26 @@ export let categoryListWithProduct = (isLoading) => {
                 dispatch({'type': types.kActionError, 'isLoading':false});
             });
     }
-}
+};
+
+/**
+ *
+ * @param isLoading
+ * @returns {function(*)}
+ */
+export let productView = (product_id) => {
+    let url = urls.kUrlProductView + product_id;
+    return (dispatch) => {
+        dispatch({'type': types.kProductView, 'isLoading':true});
+        Util.get(url,
+            (response) => {
+                let product = response.data.product;
+                // Alert.alert(product);
+                dispatch({'type': types.kProductViewReceived, 'isLoading':false, 'product': product});
+            },
+            (error) => {
+                // Alert.alert(error.message);
+                dispatch({'type': types.kActionError, 'isLoading':false, 'error':error});
+            });
+    }
+};

@@ -19,15 +19,32 @@ const initialState = {
 let productReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.kCategoryListWithProduct:
-            return Object.assign({}, state, {
-                ...state
-            });
+            return {
+                ...state,
+                isLoading: true,
+            };
         case types.kCategoryListWithProductReceived:
             // Alert.alert(action.categories);
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 categories: action.categories,
                 isLoading: false,
-            });
+            };
+
+        case types.kProductView:
+            // alert(1);
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.kProductViewReceived:
+            // alert(2);
+            // Alert.alert(action.product);
+            return {
+                ...state,
+                product: action.product,
+                isLoading: false,
+            };
         default:
             return state;
     }
