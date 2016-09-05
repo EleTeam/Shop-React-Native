@@ -27,6 +27,12 @@ import {productView} from '../actions/productActions';
 export default class ProductPage extends React.Component {
     constructor(props) {
         super(props);
+
+            //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
+            // InteractionManager.runAfterInteractions(() => {
+            //     const {dispatch, product_id} = this.props;
+            //     dispatch(productView(product_id));
+            // });
     }
 
     componentDidMount() {
@@ -40,9 +46,9 @@ export default class ProductPage extends React.Component {
     render() {
         const {productReducer} = this.props;
         let product = productReducer.product;
-        alert(productReducer.isLoading);
-        if (!productReducer.isLoading){
-            // Alert.alert(product.name);
+        // alert(productReducer.isLoading);
+        if (productReducer.isLoading){
+            Alert.alert(product);
         }
 
         return (

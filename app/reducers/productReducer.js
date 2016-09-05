@@ -13,6 +13,7 @@ import {Alert} from 'react-native';
 
 const initialState = {
     categories: [],
+    product: {},
     isLoading: true,
 };
 
@@ -20,8 +21,7 @@ let productReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.kCategoryListWithProduct:
             return {
-                ...state,
-                isLoading: true,
+                ...state
             };
         case types.kCategoryListWithProductReceived:
             // Alert.alert(action.categories);
@@ -39,7 +39,7 @@ let productReducer = (state = initialState, action) => {
             };
         case types.kProductViewReceived:
             // alert(2);
-            // Alert.alert(action.product);
+            // Alert.alert(action.product.name);
             return {
                 ...state,
                 product: action.product,
