@@ -10,35 +10,22 @@
 
 import * as types from './actionTypes';
 import Util from '../common/utils';
+import * as urls from '../common/constants_url';
 
-export let fetchBanners = ()=> {
-    let URL = 'http://food.boohee.com/fb/v1/home/banners';
-    // http://food.boohee.com/fb/v1/home/banners?app_device=Android&app_version=2.2&channel=boohee&user_key=6d5b5520-df45-448b-93fe-58b6a62db7f3&token=G7ccLmyGSqpJkZvSkzEd&phone_model=H60-L11&os_version=4.4.2
-    
+export let bannerList = ()=> {
+    let url = urls.kUrlBannerList;
+
     return dispatch => {
         // 请求轮播数据
-        dispatch(fetchBannerList());
-        return Util.get(URL, (response) => {
-            dispatch(receiveBannerList(response.banners));
+        dispatch({type: types.kBannerList});
+        return Util.get(url, (response) => {
+            dispatch({type: types.kBannerListReceived, bannerList: response.data.banners});
         }, (error) => {
-            console.log('Fetch banner list error: ' + error);
-            dispatch(receiveBannerList([]));
+            // console.log('Fetch banner list error: ' + error);
+            // dispatch({'type': types.kActionError});
         });
     }
-}
-
-let fetchBannerList = ()=> {
-    return {
-        type: types.FETCH_BANNER_LIST,
-    }
-}
-
-let receiveBannerList = (bannerList) => {
-    return {
-        type: types.RECEIVE_BANNER_LIST,
-        bannerList: bannerList,
-    }
-}
+};
 
 //异步调用服务端
 export let fetchFeeds = (page, isLoadMore, isRefreshing, isLoading)=> {

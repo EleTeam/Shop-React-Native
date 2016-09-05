@@ -8,7 +8,7 @@
  * @license The MIT License (MIT)
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
@@ -20,7 +20,7 @@ import {
     InteractionManager,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import {fetchBanners, fetchFeeds} from '../actions/strollingActions';
+import {bannerList, fetchFeeds} from '../actions/homeActions';
 import Common from '../common/constants';
 import SearchHeader from '../components/SearchHeader';
 import LoadMoreFooter from '../components/LoadMoreFooter';
@@ -33,7 +33,7 @@ let canLoadMore = false;
 let isRefreshing = false;
 let isLoading = true;
 
-export default class Strolling extends React.Component {
+export default class HomePage extends Component {
 
     constructor(props) {
         super(props);
@@ -55,22 +55,22 @@ export default class Strolling extends React.Component {
     }
 
     componentDidMount() {
-        //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
-        // InteractionManager.runAfterInteractions(() => {
-        //     const {dispatch} = this.props;
-        //     dispatch(fetchBanners());
-        //     dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
-        // });
+        // 交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch} = this.props;
+            dispatch(bannerList());
+            dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
+        });
 
-        const {dispatch} = this.props;
-        dispatch(fetchBanners());
-        dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
+        // const {dispatch} = this.props;
+        // dispatch(bannerList());
+        // dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
     }
 
     render() {
-        const {Strolling} = this.props;
-        let bannerList = Strolling.bannerList;
-        let feedList = Strolling.feedList;
+        const {homeReducer} = this.props;
+        let bannerList = homeReducer.bannerList;
+        let feedList = homeReducer.feedList;
         let sourceData = {'banner': [bannerList], 'feed': feedList};
 
         let sectionIDs = ['banner', 'feed'];
@@ -98,7 +98,7 @@ export default class Strolling extends React.Component {
                     }}
                     scanAction={()=>alert('scan')}
                 />
-                {Strolling.isLoading ?
+                {homeReducer.isLoading ?
                     <Loading /> :
                     <ListView
                         dataSource={this.state.dataSource.cloneWithRowsAndSections(sourceData, sectionIDs, rowIDs)}
@@ -112,7 +112,7 @@ export default class Strolling extends React.Component {
                         style={{height: Common.window.height - 64}}
                         refreshControl={
                             <RefreshControl
-                                refreshing={Strolling.isRefreshing}
+                                refreshing={homeReducer.isRefreshing}
                                 onRefresh={this._onRefresh.bind(this)}
                                 title="正在加载中……"
                                 color="#ccc"
@@ -144,7 +144,7 @@ export default class Strolling extends React.Component {
                             <TouchableOpacity key={banner.name} activeOpacity={0.75}>
                                 <Image
                                     style={styles.bannerImage}
-                                    source={{uri: banner.image_key}}
+                                    source={{uri: banner.image}}
                                 />
                             </TouchableOpacity>
                         )
@@ -210,8 +210,8 @@ export default class Strolling extends React.Component {
     }
 
     _renderFooter() {
-        const {Strolling} = this.props;
-        if (Strolling.isLoadMore) {
+        const {homeReducer} = this.props;
+        if (homeReducer.isLoadMore) {
             return <LoadMoreFooter />
         }
     }
@@ -227,7 +227,7 @@ export default class Strolling extends React.Component {
         canLoadMore = false;
         isRefreshing = true;
         dispatch(fetchFeeds(page, canLoadMore, isRefreshing));
-        dispatch(fetchBanners());
+        dispatch(bannerList());
     }
 
     // 上拉加载

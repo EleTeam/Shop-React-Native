@@ -10,7 +10,7 @@
 
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
@@ -19,9 +19,11 @@ import {
     Image,
     InteractionManager,
     TouchableOpacity,
+    DeviceEventEmitter,
     Alert
 } from 'react-native';
-import {categoryListWithProduct} from '../actions/productActions';
+// import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
+import { categoryListWithProduct } from '../actions/productActions';
 import Loading from '../components/Loading';
 import ProductPage from '../pages/ProductPage';
 
@@ -29,7 +31,7 @@ import ProductPage from '../pages/ProductPage';
 let isLoading = true;
 let products = [];
 
-export default class CategoryPage extends React.Component {
+export default class CategoryPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -69,7 +71,7 @@ export default class CategoryPage extends React.Component {
     }
 }
 
-class CategoryList extends React.Component {
+class CategoryList extends Component {
     constructor(props) {
         super(props);
 
@@ -120,11 +122,15 @@ class CategoryList extends React.Component {
 
     _onPressCategoryItem(rowId) {
         products = this.props.categories[rowId];
-        // Alert.alert(products);
+        Alert.alert(rowId);
+
+
+        DeviceEventEmitter.emit('dataChange', rowId);
+        Alert.alert(rowId);
     }
 }
 
-class ProductList extends React.Component {
+class ProductList extends Component {
     constructor(props) {
         super(props);
 
@@ -188,6 +194,26 @@ class ProductList extends React.Component {
                 passProps: {...this.props, product_id:product_id}
             })
         });
+    }
+}
+
+class XiFan extends Component {
+    componentDidMount(){
+        this.subscription = DeviceEventEmitter.addListener('dataChange',this._onListenerCallback.bind(this));
+    }
+
+    render() {
+        return (
+            <View>a</View>
+        )
+    }
+
+    componentWillUnmount(){
+        this.subscription.remove();
+    }
+
+    _onListenerCallback(params){
+        Alert.alert('params = '+ params);
     }
 }
 

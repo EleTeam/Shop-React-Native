@@ -15,11 +15,11 @@
  */
 
 //公用类型
-export const kActionError                   = 'kActionError';
+export const kActionError                       = 'kActionError';
 
-// 轮播
-export const FETCH_BANNER_LIST = 'FETCH_BANNER_LIST';
-export const RECEIVE_BANNER_LIST = 'RECEIVE_BANNER_LIST'
+//广告
+export const kBannerList                        = 'kBannerList';
+export const kBannerListReceived                = 'kBannerListReceived'
 
 // 用户
 export const kUserView                          = 'kUserView';

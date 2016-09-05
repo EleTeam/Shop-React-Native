@@ -17,32 +17,33 @@ const initialState = {
     isRefreshing: false,
 };
 
-let strollingReducer = (state = initialState, action) => {
+let homeReducer = (state = initialState, action) => {
    
     switch (action.type) {
-        case types.FETCH_BANNER_LIST:
+        case types.kBannerList:
             return {
                 ...state,
-            }
-        case types.RECEIVE_BANNER_LIST:
-            return Object.assign({}, state, {
+            };
+        case types.kBannerListReceived:
+            return {
+                ...state,
                 bannerList: action.bannerList,
-            })
+            };
         case types.FETCH_FEED_LIST:
             return Object.assign({}, state, {
                 isLoadMore: action.isLoadMore,
                 isRefreshing: action.isRefreshing,
                 isLoading: action.isLoading,
-            })
+            });
         case types.RECEIVE_FEED_LIST:
             return Object.assign({}, state, {
                 feedList: state.isLoadMore ? state.feedList.concat(action.feedList) : action.feedList,
                 isRefreshing: false,
                 isLoading: false,
-            })
+            });
         default:
             return state;
     }
 }
 
-export default strollingReducer;
+export default homeReducer;

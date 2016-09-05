@@ -13,16 +13,16 @@ import {
     TabBarIOS,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import StrollingContainer from '../containers/StrollingContainer';
+import HomeContainer from '../containers/HomeContainer';
 import CategoryContainer from '../containers/CategoryContainer';
 import UserContainer from '../containers/UserContainer';
 import Constants from '../common/constants';
 
 const tabBarItems = [
-    {title: '首頁', icon: 'home', component: StrollingContainer},
+    {title: '首頁', icon: 'home', component: HomeContainer},
     {title: '分类', icon: 'th-list', component: CategoryContainer},
-    {title: '购物车', icon: 'shopping-cart', component: StrollingContainer},
-    {title: '优惠', icon: 'folder-o', component: StrollingContainer},
+    {title: '购物车', icon: 'shopping-cart', component: HomeContainer},
+    {title: '优惠', icon: 'folder-o', component: HomeContainer},
     {title: '我的', icon: 'user', component: UserContainer},
 ];
 

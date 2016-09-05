@@ -12,23 +12,25 @@
  * 根reducer
  */
 import { combineReducers } from 'redux';
-import Strolling from './strollingReducer';
+import homeReducer from './homeReducer';
+import productReducer from './productReducer';
+
 import Foods from './foodsReducer';
 import FoodsList from './foodsListReducer';
 import FoodCompare from './foodCompareReducer';
 import FoodInfo from './foodInfoReducer';
 import Search from './searchReducer';
 import User from './userReducer';
-import productReducer from './productReducer';
 
 
 export default rootReducer = combineReducers({
-    Strolling,
+    homeReducer,
+    productReducer,
+
     Foods,
     FoodsList,
     FoodCompare,
     FoodInfo,
     Search,
     User,
-    productReducer,
 })

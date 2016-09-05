@@ -8,21 +8,21 @@
  * @license The MIT License (MIT)
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Strolling from '../pages/Strolling';
+import HomePage from '../pages/HomePage';
 
-class StrollingContainer extends React.Component {
+class HomeContainer extends Component {
     render() {
         return (
-            <Strolling {...this.props} />
+            <HomePage {...this.props} />
         )
     }
 }
 
 export default connect((state) => {
-    const { Strolling } = state;
+    const { homeReducer } = state;
     return {
-        Strolling
+        homeReducer
     }
-})(StrollingContainer);
+})(HomeContainer);
