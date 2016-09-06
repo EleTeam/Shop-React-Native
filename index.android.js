@@ -1,53 +1,17 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * ShopReactNative
+ *
+ * @author Tony Wong
+ * @date 2016-08-13
+ * @email 908601756@qq.com
+ * @copyright Copyright © 2016 EleTeam
+ * @license The MIT License (MIT)
  */
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+/**
+ * Android入口文件
+ */
+import { AppRegistry } from 'react-native';
+import Root from './app/root';
 
-class ShopReactNative extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('ShopReactNative', () => ShopReactNative);
+AppRegistry.registerComponent('ShopReactNative', () => Root);
