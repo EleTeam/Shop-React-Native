@@ -36,13 +36,13 @@ export const kCategoryListWithProductReceived   = 'kCategoryListWithProductRecei
 export const kProductView                       = 'kProductView';
 export const kProductViewReceived               = 'kProductViewReceived';
 
+//文章
+export const kArticleView                       = 'kArticleView';
+export const kArticleViewReceived               = 'kArticleViewReceived';
 
 
 
 
-// 逛吃列表actions
-export const FETCH_FEED_LIST = 'FETCH_FEEDS_LIST';
-export const RECEIVE_FEED_LIST = 'RECEIVE_FEEDS_LIST';
 
 // 食物百科actions
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';

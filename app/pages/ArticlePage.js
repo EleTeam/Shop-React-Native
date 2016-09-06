@@ -16,16 +16,28 @@ import {
     Image,
     Text,
     TouchableOpacity,
+    InteractionManager
 } from 'react-native';
 
 import Header from '../components/Header';
 import Common from '../common/constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {articleView} from '../actions/articleActions';
+import Loading from '../components/Loading';
 
-export default class FeedDetail extends React.Component {
+export default class ArticlePage extends React.Component {
+    componentDidMount() {
+        // 交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch, id} = this.props;
+            dispatch(articleView(id));
+        });
+    }
 
     render() {
-        const {feed} = this.props;
+        const {articleReducer} = this.props;
+        let article = articleReducer.article;
+        // alert(article.link);
 
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -34,13 +46,16 @@ export default class FeedDetail extends React.Component {
                     leftIconAction={()=>this.props.navigator.pop()}
                     title='资讯详情'
                 />
-                <WebView
-                    source={{uri: feed.link}}
-                    startInLoadingState={true}
-                    bounces={false}
-                    scalesPageToFit={true}
-                    style={styles.webView}
-                />
+                {articleReducer.isLoading ?
+                    <Loading /> :
+                    <WebView
+                        source={{uri: article.link}}
+                        startInLoadingState={true}
+                        bounces={false}
+                        scalesPageToFit={true}
+                        style={styles.webView}
+                    />
+                }
                 <ToolBar style={{position: 'absolute', bottom: 0}}/>
             </View>
         )
@@ -108,4 +123,4 @@ const styles = StyleSheet.create({
         right: Common.window.width * 0.5,
         backgroundColor: '#ccc'
     }
-})
+});

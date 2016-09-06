@@ -25,7 +25,7 @@ import {bannerList, homeListArticles} from '../actions/homeActions';
 import Common from '../common/constants';
 import SearchHeader from '../components/SearchHeader';
 import LoadMoreFooter from '../components/LoadMoreFooter';
-import FeedDetail from '../pages/FeedDetail';
+import ArticleContainer from '../containers/ArticleContainer';
 import Loading from '../components/Loading';
 import SearchContainer from '../containers/SearchContainer';
 
@@ -163,7 +163,7 @@ export default class HomePage extends Component {
             return (
                 <TouchableOpacity
                     activeOpacity={0.75}
-                    onPress={this._onPressFeedItem.bind(this, data)}
+                    onPress={this._onPressArticle.bind(this, data)}
                 >
                     <View style={feedCellStyle}>
                         {data.is_show_image ?
@@ -192,13 +192,13 @@ export default class HomePage extends Component {
         }
     }
 
-    _onPressFeedItem(feedItem) {
+    _onPressArticle(article) {
         InteractionManager.runAfterInteractions(() => {
             this.props.navigator.push({
-                name: 'FeedDetail',
-                component: FeedDetail,
+                name: 'ArticleContainer',
+                component: ArticleContainer,
                 passProps: {
-                    feed: feedItem,
+                    id: article.id,
                 }
             })
         });

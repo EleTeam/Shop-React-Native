@@ -22,3 +22,6 @@ export const kUrlProductView                = kUrlHost + '/product/view?id=';
 //首页
 export const kUrlBannerList                 = kUrlHost + '/banner/list';
 export const kUrlHomeListArticles           = kUrlHost + '/home/list-articles';
+
+//文章
+export const kUrlArticleView                = kUrlHost + '/cms-article/view?id=';

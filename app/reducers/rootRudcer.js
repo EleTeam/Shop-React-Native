@@ -14,6 +14,7 @@
 import { combineReducers } from 'redux';
 import homeReducer from './homeReducer';
 import productReducer from './productReducer';
+import articleReducer from './articleReducer';
 
 import Foods from './foodsReducer';
 import FoodsList from './foodsListReducer';
@@ -26,6 +27,7 @@ import User from './userReducer';
 export default rootReducer = combineReducers({
     homeReducer,
     productReducer,
+    articleReducer,
 
     Foods,
     FoodsList,
