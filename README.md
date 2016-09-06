@@ -28,9 +28,9 @@
     const kUrlHost = 'http://eleteamapi.ygcr8.com/v1';    //在线服务器
 
 ### 部分App界面：
-![](https://raw.githubusercontent.com/EleTeam/Shop-React-Native/screenshoot/01.jpg)      ![](https://raw.githubusercontent.com/EleTeam/Shop-React-Native/screenshoot/02.jpg)      ![](https://raw.githubusercontent.com/EleTeam/Shop-React-Native/screenshoot/03.jpg)     
+![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/01.png)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/02.jpg)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/03.jpg)     
 
-![](https://raw.githubusercontent.com/EleTeam/Shop-React-Native/screenshoot/04.jpg)      ![](https://raw.githubusercontent.com/EleTeam/Shop-React-Native/screenshoot/05.jpg)      ![](https://raw.githubusercontent.com/EleTeam/Shop-React-Native/screenshoot/06.jpg)        
+![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/04.jpg)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/05.png)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/06.jpg)        
 
 ###### @author Tony Wong
 ###### @email 908601756@qq.com
