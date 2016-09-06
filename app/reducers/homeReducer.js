@@ -18,7 +18,6 @@ const initialState = {
 };
 
 let homeReducer = (state = initialState, action) => {
-   
     switch (action.type) {
         case types.kBannerList:
             return {
@@ -29,13 +28,14 @@ let homeReducer = (state = initialState, action) => {
                 ...state,
                 bannerList: action.bannerList,
             };
-        case types.FETCH_FEED_LIST:
+        case types.kHomeListArticles:
+
             return Object.assign({}, state, {
                 isLoadMore: action.isLoadMore,
                 isRefreshing: action.isRefreshing,
                 isLoading: action.isLoading,
             });
-        case types.RECEIVE_FEED_LIST:
+        case types.kHomeListArticlesReceived:
             return Object.assign({}, state, {
                 feedList: state.isLoadMore ? state.feedList.concat(action.feedList) : action.feedList,
                 isRefreshing: false,
@@ -44,6 +44,6 @@ let homeReducer = (state = initialState, action) => {
         default:
             return state;
     }
-}
+};
 
 export default homeReducer;

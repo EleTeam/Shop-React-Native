@@ -19,5 +19,6 @@ const kUrlHost = 'http://local.eleteamapi.ygcr8.com/v1'
 export const kUrlCategoryListWithProduct    = kUrlHost + '/category/list-with-product';
 export const kUrlProductView                = kUrlHost + '/product/view?id=';
 
-//广告
+//首页
 export const kUrlBannerList                 = kUrlHost + '/banner/list';
+export const kUrlHomeListArticles           = kUrlHost + '/home/list-articles';

@@ -17,9 +17,11 @@
 //公用类型
 export const kActionError                       = 'kActionError';
 
-//广告
+//首页
 export const kBannerList                        = 'kBannerList';
-export const kBannerListReceived                = 'kBannerListReceived'
+export const kBannerListReceived                = 'kBannerListReceived';
+export const kHomeListArticles                  = 'kHomeListArticles';
+export const kHomeListArticlesReceived          = 'kHomeListArticlesReceived';
 
 // 用户
 export const kUserView                          = 'kUserView';
@@ -33,6 +35,10 @@ export const kCategoryListWithProduct           = 'kCategoryListWithProduct';
 export const kCategoryListWithProductReceived   = 'kCategoryListWithProductReceived';
 export const kProductView                       = 'kProductView';
 export const kProductViewReceived               = 'kProductViewReceived';
+
+
+
+
 
 // 逛吃列表actions
 export const FETCH_FEED_LIST = 'FETCH_FEEDS_LIST';

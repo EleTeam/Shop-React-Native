@@ -18,9 +18,10 @@ import {
     RefreshControl,
     Image,
     InteractionManager,
+    Alert
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import {bannerList, fetchFeeds} from '../actions/homeActions';
+import {bannerList, homeListArticles} from '../actions/homeActions';
 import Common from '../common/constants';
 import SearchHeader from '../components/SearchHeader';
 import LoadMoreFooter from '../components/LoadMoreFooter';
@@ -34,7 +35,6 @@ let isRefreshing = false;
 let isLoading = true;
 
 export default class HomePage extends Component {
-
     constructor(props) {
         super(props);
 
@@ -59,12 +59,8 @@ export default class HomePage extends Component {
         InteractionManager.runAfterInteractions(() => {
             const {dispatch} = this.props;
             dispatch(bannerList());
-            dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
+            dispatch(homeListArticles(page, canLoadMore, isRefreshing, isLoading));
         });
-
-        // const {dispatch} = this.props;
-        // dispatch(bannerList());
-        // dispatch(fetchFeeds(page, canLoadMore, isRefreshing, isLoading));
     }
 
     render() {
@@ -72,6 +68,7 @@ export default class HomePage extends Component {
         let bannerList = homeReducer.bannerList;
         let feedList = homeReducer.feedList;
         let sourceData = {'banner': [bannerList], 'feed': feedList};
+        // alert(homeReducer.isLoading);
 
         let sectionIDs = ['banner', 'feed'];
         let rowIDs = [[0]];
@@ -156,14 +153,12 @@ export default class HomePage extends Component {
             let sourceFontStyle = [styles.sourceFont];
             let plainContentStyle = [styles.plainContent];
             let plainPVFontStyle = [styles.plainPVFont];
-            if (data.background) {
+            if (data.is_show_image) {
                 feedCellStyle.push({height: 200})
                 sourceFontStyle.push({color: 'white'})
                 plainContentStyle.push({color: 'white'})
                 plainPVFontStyle.push({color: 'white'})
             }
-
-            let imageSource = data.background ? data.background : 'img_default_home_cover';
 
             return (
                 <TouchableOpacity
@@ -171,24 +166,24 @@ export default class HomePage extends Component {
                     onPress={this._onPressFeedItem.bind(this, data)}
                 >
                     <View style={feedCellStyle}>
-                        {data.background ?
+                        {data.is_show_image ?
                             <Image
                                 style={styles.feedImage}
-                                source={{uri: imageSource}}
+                                source={{uri: data.image}}
                             >
                                 <View style={styles.plainTitleContainer}>
-                                    <Text style={sourceFontStyle}>{data.source}</Text>
+                                    <Text style={sourceFontStyle}>{data.short_title}</Text>
                                 </View>
                                 <Text style={plainContentStyle}>{data.title}</Text>
-                                <Text style={plainPVFontStyle}>{data.tail}</Text>
+                                <Text style={plainPVFontStyle}>{data.hits}人阅读</Text>
                             </Image>
                             :
                             <View style={styles.plainFeed}>
                                 <View style={styles.plainTitleContainer}>
-                                    <Text style={sourceFontStyle}>{data.source}</Text>
+                                    <Text style={sourceFontStyle}>{data.short_title}</Text>
                                 </View>
                                 <Text style={plainContentStyle}>{data.title}</Text>
-                                <Text style={plainPVFontStyle}>{data.tail}</Text>
+                                <Text style={plainPVFontStyle}>{data.hits}人阅读</Text>
                             </View>
                         }
                     </View>
@@ -226,7 +221,7 @@ export default class HomePage extends Component {
         const {dispatch} = this.props;
         canLoadMore = false;
         isRefreshing = true;
-        dispatch(fetchFeeds(page, canLoadMore, isRefreshing));
+        dispatch(homeListArticles(page, canLoadMore, isRefreshing));
         dispatch(bannerList());
     }
 
@@ -235,7 +230,7 @@ export default class HomePage extends Component {
         if (canLoadMore) {
             page++;
             const {dispatch} = this.props;
-            dispatch(fetchFeeds(page, canLoadMore, false));
+            dispatch(homeListArticles(page, canLoadMore, false));
             canLoadMore = false;
         }
     }

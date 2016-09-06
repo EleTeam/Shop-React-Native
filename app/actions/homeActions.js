@@ -28,16 +28,22 @@ export let bannerList = ()=> {
 };
 
 //异步调用服务端
-export let fetchFeeds = (page, isLoadMore, isRefreshing, isLoading)=> {
-    let URL = 'http://food.boohee.com/fb/v1/feeds?page=' + page + '&per=10';
+export let homeListArticles = (page, isLoadMore, isRefreshing, isLoading)=> {
+    let url = urls.kUrlHomeListArticles + '?page=' + page;
     return dispatch => {
         // 请求轮播数据
-        dispatch(fetchFeedList(isLoadMore, isRefreshing, isLoading));
+        dispatch({
+            type: types.kHomeListArticles,
+            isLoadMore: isLoadMore,
+            isRefreshing: isRefreshing,
+            isLoading: isLoading,
+        });
 
-        return Util.get(URL, (response) => {
-            dispatch(receiveFeedList(response.feeds));
+        return Util.get(url, (response) => {
+            dispatch({type:types.kHomeListArticlesReceived, feedList:response.data.articles});
+            // alert(isLoading);
         }, (error) => {
-            dispatch(receiveFeedList([]));
+            dispatch({'type': types.kActionError, 'isLoading':false});
         });
 
         //模拟网络延迟
@@ -50,20 +56,4 @@ export let fetchFeeds = (page, isLoadMore, isRefreshing, isLoading)=> {
         // }
         // setTimeout(fetching, 3000);
     }
-}
-
-let fetchFeedList = (isLoadMore, isRefreshing, isLoading)=> {
-    return {
-        type: types.FETCH_FEED_LIST,
-        isLoadMore: isLoadMore,
-        isRefreshing: isRefreshing,
-        isLoading: isLoading,
-    }
-}
-
-let receiveFeedList = (feeds) => {
-    return {
-        type: types.RECEIVE_FEED_LIST,
-        feedList: feeds,
-    }
-}
+};
