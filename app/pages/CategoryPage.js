@@ -19,13 +19,11 @@ import {
     Image,
     InteractionManager,
     TouchableOpacity,
-    DeviceEventEmitter,
     Alert
 } from 'react-native';
-// import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import { categoryListWithProduct } from '../actions/productActions';
 import Loading from '../components/Loading';
-import ProductPage from '../pages/ProductPage';
+import ProductContainer from '../containers/ProductContainer';
 
 //页面变量
 let isLoading = true;
@@ -34,6 +32,9 @@ let products = [];
 export default class CategoryPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            products: []
+        };
     }
 
     componentDidMount() {
@@ -45,20 +46,20 @@ export default class CategoryPage extends Component {
     }
 
     render() {
-        const {productReducer} = this.props;
-        let categories = productReducer.categories;
-        // alert(productReducer.isLoading);
-        if (!productReducer.isLoading){
+        const {categoryReducer} = this.props;
+        let categories = categoryReducer.categories;
+        // alert(categoryReducer.isLoading);
+        if (!categoryReducer.isLoading){
             products = categories[0].products;
             // Alert.alert(products);
         }
 
         return (
             <View style={styles.container}>
-                {productReducer.isLoading ?
+                {categoryReducer.isLoading ?
                     <Loading /> :
                     <View style={styles.container}>
-                        <CategoryList categories={categories} {...this.props} />
+                        <CategoryList categories={categories} setProducts={this._setProducts.bind(this)} {...this.props} />
                         <ProductList {...this.props} />
                     </View>
                 }
@@ -66,8 +67,10 @@ export default class CategoryPage extends Component {
         )
     }
 
-    setDataSourceForProductList(products) {
-
+    _setProducts(products) {
+        this.state = {
+            products: products
+        }
     }
 }
 
@@ -122,11 +125,7 @@ class CategoryList extends Component {
 
     _onPressCategoryItem(rowId) {
         products = this.props.categories[rowId];
-        Alert.alert(rowId);
 
-
-        DeviceEventEmitter.emit('dataChange', rowId);
-        Alert.alert(rowId);
     }
 }
 
@@ -153,6 +152,7 @@ class ProductList extends Component {
     }
 
     render() {
+        // alert(1);
         return (
             <View style={styles.productList}>
                 <ListView style={styles.productList}
@@ -166,7 +166,7 @@ class ProductList extends Component {
 
     _renderRow(product, sectionId, rowId) {
         return (
-            <TouchableOpacity onPress={this._onPressProductItem.bind(this, product.id)}>
+            <TouchableOpacity onPress={this._onPressProduct.bind(this, product.id)}>
                 <View style={styles.productItem}>
                     <Image
                         style={styles.productImage}
@@ -185,12 +185,12 @@ class ProductList extends Component {
         );
     }
 
-    _onPressProductItem(product_id) {
+    _onPressProduct(product_id) {
         // Alert.alert(product_id);
         InteractionManager.runAfterInteractions(() => {
             this.props.navigator.push({
-                name: 'ProductPage',
-                component: ProductPage,
+                name: 'ProductContainer',
+                component: ProductContainer,
                 passProps: {...this.props, product_id:product_id}
             })
         });

@@ -10,7 +10,7 @@
 
 'use strict';
 
-import React from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
@@ -22,19 +22,12 @@ import {
     Alert
 } from 'react-native';
 import Loading from '../components/Loading';
+import Header from '../components/Header';
+import Common from '../common/constants';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {productView} from '../actions/productActions';
 
-export default class ProductPage extends React.Component {
-    constructor(props) {
-        super(props);
-
-            //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
-            // InteractionManager.runAfterInteractions(() => {
-            //     const {dispatch, product_id} = this.props;
-            //     dispatch(productView(product_id));
-            // });
-    }
-
+export default class ProductPage extends Component {
     componentDidMount() {
         //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
         InteractionManager.runAfterInteractions(() => {
@@ -47,71 +40,91 @@ export default class ProductPage extends React.Component {
         const {productReducer} = this.props;
         let product = productReducer.product;
         // alert(productReducer.isLoading);
-        if (productReducer.isLoading){
-            Alert.alert(product);
-        }
+        // if (!productReducer.isLoading){
+        //     Alert.alert(product);
+        // }
 
         return (
-                productReducer.isLoading ?
+            <View style={styles.container}>
+                <Header
+                    leftIcon='angle-left'
+                    leftIconAction={()=>this.props.navigator.pop()}
+                    title='商品详情'
+                />
+                {productReducer.isLoading ?
                     <Loading /> :
-                    <View style={styles.container}>
-                        <Text>product.name}</Text>
+                    <View>
+                        <Text>{product.name}</Text>
+                        <Text>{product.name}</Text>
+                        <Text>{product.name}</Text>
+                        <Text>{product.price}</Text>
                     </View>
+                }
+                <ToolBar style={{position: 'absolute', bottom: 0}}/>
+            </View>
+        )
+    }
+}
+
+class ToolBar extends React.Component {
+    render() {
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.toolBarItem}>
+                    <Icon
+                        name="share-square-o"
+                        color="gray"
+                        size={15}
+                    />
+                    <Text style={styles.itemTitle}>分享</Text>
+                </TouchableOpacity>
+                <View style={styles.centerLine}/>
+                <TouchableOpacity style={styles.toolBarItem}>
+                    <Icon
+                        name="heart-o"
+                        color="gray"
+                        size={15}
+                    />
+                    <Text style={styles.itemTitle}>收藏</Text>
+                </TouchableOpacity>
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    webView: {
+        width: Common.window.width,
+        height: Common.window.height - 64 - 40,
+    },
+
     container: {
-        flex: 1,
-        flexDirection:'row',
-    },
-    categoryList: {
-        backgroundColor: '#eee',
-        width: 70,
-    },
-    productList: {
-        flex: 1,
-        backgroundColor: '#eee',
-    },
-    line:{
-        backgroundColor:'#eef0f3',
-        height:1,
+        height: 40,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderTopColor: '#ccc',
+        borderTopWidth: 0.5,
     },
 
-    categoryItem:{
-        alignItems: 'center',    //水平居中
-        justifyContent: 'center',//垂直居中
-        height:50,
-    },
-    category_bg_select:{
-        backgroundColor:'#d7ead6',
-    },
-    category_bg_normal:{
-        backgroundColor:'#fff',
+    toolBarItem: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
-    productItem: {
-        height: 80,
-        flexDirection:'row',
-        padding: 15,
-        marginBottom: 1,
-        backgroundColor:'#fff',
+    itemTitle: {
+        marginLeft: 5,
+        fontSize: 12,
+        color: 'gray'
     },
-    productRight: {
-        flexDirection:'column',
-    },
-    productImage: {
-        width: 60,
-        height: 60,
-        marginRight: 15,
-    },
-    productPrice: {
-        fontSize: 24,
-        color: 'red',
-    },
-    productFeaturedPrice: {
-        fontSize: 14,
-        color: '#ddd',
+
+    centerLine: {
+        position: 'absolute',
+        height: 20,
+        width: 0.5,
+        top: 10,
+        right: Common.window.width * 0.5,
+        backgroundColor: '#ccc'
     }
 });

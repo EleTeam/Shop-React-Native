@@ -10,19 +10,19 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import CategoryPage from '../pages/CategoryPage';
+import ProductPage from '../pages/ProductPage';
 
-class CategoryContainer extends Component {
+class ProductContainer extends Component {
     render() {
         return (
-            <CategoryPage {...this.props} />
+            <ProductPage {...this.props} />
         )
     }
 }
 
 export default connect((state) => {
-    const { categoryReducer } = state;
+    const { productReducer } = state;
     return {
-        categoryReducer
+        productReducer
     }
-})(CategoryContainer);
+})(ProductContainer);

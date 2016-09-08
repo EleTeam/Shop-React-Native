@@ -13,6 +13,7 @@
  */
 import { combineReducers } from 'redux';
 import homeReducer from './homeReducer';
+import categoryReducer from './categoryReducer';
 import productReducer from './productReducer';
 import articleReducer from './articleReducer';
 
@@ -26,6 +27,7 @@ import User from './userReducer';
 
 export default rootReducer = combineReducers({
     homeReducer,
+    categoryReducer,
     productReducer,
     articleReducer,
 

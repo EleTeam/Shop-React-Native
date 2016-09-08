@@ -307,4 +307,4 @@ const styles = StyleSheet.create({
         color: 'gray',
         fontSize: 13,
     }
-})
+});
