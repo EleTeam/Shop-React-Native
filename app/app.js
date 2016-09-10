@@ -12,18 +12,25 @@ import React, { Component } from 'react';
 import {
     Navigator,
     View,
+    StatusBar,
+    Platform
 } from 'react-native';
 
-import StatusBarIOS from '../components/StatusBarIOS';
-import TabBarView from '../containers/TabBarView';
+import Splash from './pages/Splash';
+
+export const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 20 : 25)
 
 class App extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <StatusBarIOS barStyle="light-content"/>
+                <StatusBar
+                    barStyle='light-content'
+                    backgroundColor='transparent'
+                    style={{height: STATUS_BAR_HEIGHT}}
+                />
                 <Navigator
-                    initialRoute={{name: 'TabBarView', component: TabBarView}}
+                    initialRoute={{name: 'Splash', component: Splash}}
                     configureScene={()=>{
                         return  Navigator.SceneConfigs.PushFromRight;
                     }}
