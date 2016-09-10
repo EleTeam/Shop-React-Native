@@ -1,6 +1,6 @@
 # Shop-React-Native
 
-### Shop-React-Native 是基于 React Native 和 Redux 实现的电商类APP。持续更新中，欢迎一起讨论学习！
+### Shop-React-Native 是基于 React Native 和 Redux 实现的电商类APP，同时运行在iOS和Android平台上。持续更新中，欢迎一起讨论学习！
 
 #### 如果你支持这个项目，请 Star and Fork Me。
 
