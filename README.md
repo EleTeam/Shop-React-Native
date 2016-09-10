@@ -22,6 +22,10 @@
     地址模块
     分享&收藏
     营销模块
+    
+#### 依赖组件:
+    react-native-tab-navigator  //纯JS底部导航条, 同时适用在iOS和Android上
+    react-native-vector-icons   //图标库, 需要更改原生文件的组件, 查看: https://www.npmjs.com/package/react-native-vector-icons
 
 ##### 访问在线服务器:
     取消注释, 在文件: app/common/constants_url.js: 
