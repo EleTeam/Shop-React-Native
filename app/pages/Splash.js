@@ -18,7 +18,7 @@ import {
   View
 } from 'react-native';
 
-import TabBarView from '../containers/TabBarView';
+import AppMain from '../containers/AppMain';
 
 var {height, width} = Dimensions.get('window');
 
@@ -31,11 +31,11 @@ class Splash extends React.Component {
      this.timer=setTimeout(() => {
       InteractionManager.runAfterInteractions(() => {
         navigator.resetTo({
-          component: TabBarView,
-          name: 'TabBarView'
+          component: AppMain,
+          name: 'AppMain'
         });
       });
-    }, 2500);
+    }, 2000);
   }
   componentWillUnmount() {
     this.timer && clearTimeout(this.timer);
