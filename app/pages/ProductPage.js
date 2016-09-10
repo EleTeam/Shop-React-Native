@@ -53,9 +53,7 @@ export default class ProductPage extends Component {
                 />
                 {productReducer.isLoading ?
                     <Loading /> :
-                    <View>
-                        <Text>{product.name}</Text>
-                        <Text>{product.name}</Text>
+                    <View style={styles.content}>
                         <Text>{product.name}</Text>
                         <Text>{product.price}</Text>
                     </View>
@@ -93,17 +91,14 @@ class ToolBar extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    webView: {
-        width: Common.window.width,
-        height: Common.window.height - 64 - 40,
+    container: {
+        flex: 1,
+        flexDirection:'row',
     },
 
-    container: {
-        height: 40,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderTopColor: '#ccc',
-        borderTopWidth: 0.5,
+    content: {
+        width: Common.window.width,
+        height: Common.window.height - 64 - 40,
     },
 
     toolBarItem: {

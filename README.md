@@ -27,6 +27,15 @@
     取消注释, 在文件: app/common/constants_url.js: 
     const kUrlHost = 'http://eleteamapi.ygcr8.com/v1';    //在线服务器
 
+#### 安装出现问题
+    1. Application Shop-React-Native has not been registered. This is either due to a require() error during initialization or failure to call AppRegistry.registerComponent
+    解决办法:
+        造成这种错误有两种情况:
+        1. AppRegistry.registerComponent('项目名', () => 项目名); 与./ios/项目名/appDelegate.m中的RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName:@"项目名" initialProperties:nil launchOptions:launchOptions]; 不同
+          在Android项目中可能是./android/app/src/main/java/com/项目名/MainActivity.java中的mReactRootView.startReactApplication(mReactInstanceManager, "项目名", null); 没有保持一致，修改方法：编辑成相同的参数即可。
+        2. 有可能你同时在运行一个以上的程序。如果你的react-native在运行程序A而你打开了程序B，也会出现相同的问题。解决方法：关闭其它React Native程序, 只运行一个。
+        
+
 ### 部分App界面：
 ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/01.png)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/02.jpg)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/03.jpg)     
 
