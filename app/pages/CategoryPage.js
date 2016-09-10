@@ -24,17 +24,42 @@ import {
 import { categoryListWithProduct } from '../actions/productActions';
 import Loading from '../components/Loading';
 import ProductContainer from '../containers/ProductContainer';
+import Common from '../common/constants';
 
 //页面变量
 let isLoading = true;
-let products = [];
+let curCategoryIndex = 0;
 
 export default class CategoryPage extends Component {
     constructor(props) {
         super(props);
+
+        let dsCategory = new ListView.DataSource({
+            getRowData: (data, sectionId, rowId) => {
+                return data[sectionId][rowId];
+            },
+            getSectionHeaderData: (data, sectionId) => {
+                return data[sectionId];
+            },
+            rowHasChanged: (row1, row2) => row1 !== row2,
+            sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
+        });
+
+        let dsProduct = new ListView.DataSource({
+            getRowData: (data, sectionId, rowId) => {
+                return data[sectionId][rowId];
+            },
+            getSectionHeaderData: (data, sectionId) => {
+                return data[sectionId];
+            },
+            rowHasChanged: (row1, row2) => row1 !== row2,
+            sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
+        });
+
         this.state = {
-            products: []
-        };
+            dsCategory: dsCategory,
+            dsProduct: dsProduct
+        }
     }
 
     componentDidMount() {
@@ -48,73 +73,41 @@ export default class CategoryPage extends Component {
     render() {
         const {categoryReducer} = this.props;
         let categories = categoryReducer.categories;
-        // alert(categoryReducer.isLoading);
+        let products = [];
         if (!categoryReducer.isLoading){
-            products = categories[0].products;
-            // Alert.alert(products);
+            products = categories[curCategoryIndex].products;
+            isLoading = false;
         }
 
         return (
             <View style={styles.container}>
-                {categoryReducer.isLoading ?
+                {isLoading ?
                     <Loading /> :
                     <View style={styles.container}>
-                        <CategoryList categories={categories} setProducts={this._setProducts.bind(this)} {...this.props} />
-                        <ProductList {...this.props} />
+                        <ListView style={styles.categoryList}
+                            dataSource={this.state.dsCategory.cloneWithRows(categories)}
+                            renderRow={this._renderRowCategory.bind(this)}
+                            enableEmptySections={true}
+                            activeOpacity={1}
+                        />
+                        <ListView style={styles.productList}
+                              dataSource={this.state.dsProduct.cloneWithRows(products)}
+                              renderRow={this._renderRowProduct.bind(this)}
+                              enableEmptySections={true}
+                        />
                     </View>
                 }
             </View>
         )
     }
 
-    _setProducts(products) {
-        this.state = {
-            products: products
-        }
-    }
-}
+    //=== 分类栏方法 ===
 
-class CategoryList extends Component {
-    constructor(props) {
-        super(props);
-
-        this._renderRow = this._renderRow.bind(this);
-
-        let dataSource = new ListView.DataSource({
-            getRowData: (data, sectionId, rowId) => {
-                return data[sectionId][rowId];
-            },
-            getSectionHeaderData: (data, sectionId) => {
-                return data[sectionId];
-            },
-            rowHasChanged: (row1, row2) => row1 !== row2,
-            sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
-        });
-
-        this.state = {
-            dataSource: dataSource.cloneWithRows(props.categories)
-        }
-    }
-
-    render() {
-        return (
-            <View style={styles.categoryList}>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    enableEmptySections={true}
-                    activeOpacity={1}
-                    onPress={()=>this.handleSortTypesViewAnimation()}
-                />
-            </View>
-        )
-    }
-
-    _renderRow(category, sectionId, rowId) {
+    _renderRowCategory(category, sectionId, rowId) {
         return (
             <TouchableOpacity
                 style={styles.foodsCell}
-                onPress={this._onPressCategoryItem.bind(this, rowId)}
+                onPress={this._onPressCategory.bind(this, rowId)}
             >
                 <View style={styles.categoryItem}>
                     <Text>{category.name}</Text>
@@ -123,48 +116,14 @@ class CategoryList extends Component {
         );
     }
 
-    _onPressCategoryItem(rowId) {
-        products = this.props.categories[rowId];
-
-    }
-}
-
-class ProductList extends Component {
-    constructor(props) {
-        super(props);
-
-        this._renderRow = this._renderRow.bind(this);
-
-        let dataSource = new ListView.DataSource({
-            getRowData: (data, sectionId, rowId) => {
-                return data[sectionId][rowId];
-            },
-            getSectionHeaderData: (data, sectionId) => {
-                return data[sectionId];
-            },
-            rowHasChanged: (row1, row2) => row1 !== row2,
-            sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
-        });
-
-        this.state = {
-            dataSource: dataSource.cloneWithRows(products)
-        }
+    _onPressCategory(rowId) {
+        curCategoryIndex = rowId;
+        this.forceUpdate();
     }
 
-    render() {
-        // alert(1);
-        return (
-            <View style={styles.productList}>
-                <ListView style={styles.productList}
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    enableEmptySections={true}
-                />
-            </View>
-        )
-    }
+    //=== 产品栏方法 ===
 
-    _renderRow(product, sectionId, rowId) {
+    _renderRowProduct(product, sectionId, rowId) {
         return (
             <TouchableOpacity onPress={this._onPressProduct.bind(this, product.id)}>
                 <View style={styles.productItem}>
@@ -197,38 +156,19 @@ class ProductList extends Component {
     }
 }
 
-class XiFan extends Component {
-    componentDidMount(){
-        this.subscription = DeviceEventEmitter.addListener('dataChange',this._onListenerCallback.bind(this));
-    }
-
-    render() {
-        return (
-            <View>a</View>
-        )
-    }
-
-    componentWillUnmount(){
-        this.subscription.remove();
-    }
-
-    _onListenerCallback(params){
-        Alert.alert('params = '+ params);
-    }
-}
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection:'row',
     },
     categoryList: {
+        flex:0,
         backgroundColor: '#eee',
         width: 70,
     },
     productList: {
         flex: 1,
-        backgroundColor: '#eee',
+        height: Common.window.height - 64
     },
     line:{
         backgroundColor:'#eef0f3',
