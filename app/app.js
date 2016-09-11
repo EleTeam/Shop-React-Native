@@ -18,7 +18,7 @@ import {
 
 import Splash from './pages/Splash';
 
-export const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 20 : 25)
+export const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 20 : 20);
 
 class App extends Component {
     render() {

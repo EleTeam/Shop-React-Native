@@ -14,16 +14,19 @@ import * as urls from '../common/constants_url';
 
 export let bannerList = ()=> {
     let url = urls.kUrlBannerList;
-
     return dispatch => {
         // 请求轮播数据
         dispatch({type: types.kBannerList});
-        return Util.get(url, (response) => {
-            dispatch({type: types.kBannerListReceived, bannerList: response.data.banners});
-        }, (error) => {
-            // console.log('Fetch banner list error: ' + error);
-            // dispatch({'type': types.kActionError});
-        });
+        return Util.get(url,
+            (response) => {
+                dispatch({type: types.kBannerListReceived, bannerList: response.data.banners});
+            },
+            (error) => {
+                // console.log('Fetch banner list error: ' + error);
+                dispatch({'type': types.kActionError});
+                alert('Android要用外网地址');
+            }
+        );
     }
 };
 
