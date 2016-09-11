@@ -19,6 +19,7 @@ import {
     Image,
     InteractionManager,
     TouchableOpacity,
+    ScrollView,
     Alert
 } from 'react-native';
 import Loading from '../components/Loading';
@@ -40,6 +41,14 @@ export default class ProductPage extends React.Component {
     render() {
         const {productReducer} = this.props;
         let product = productReducer.product;
+        let images = [];
+        if (!productReducer.isLoading){
+            product.app_long_image1.length && images.push(product.app_long_image1);
+            product.app_long_image2.length && images.push(product.app_long_image2);
+            product.app_long_image3.length && images.push(product.app_long_image3);
+            product.app_long_image4.length && images.push(product.app_long_image4);
+            product.app_long_image5.length && images.push(product.app_long_image5);
+        }
 
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -51,14 +60,41 @@ export default class ProductPage extends React.Component {
                 <View style={styles.mainWrap}>
                     {productReducer.isLoading ?
                         <Loading /> :
-                        <View
+                        <ScrollView
                             bounces={false}
                             showsVerticalScrollIndicator={false}
                             style={styles.scrollView}
                         >
-                            <Text>{product.name}</Text>
-                            <Text>{product.price}</Text>
-                        </View>
+                            <Swiper
+                                height={200}
+                                loop={true}
+                                autoplay={false}
+                                dot={<View style={styles.customDot} />}
+                                activeDot={<View style={styles.customActiveDot} />}
+                                paginationStyle={{
+                                    bottom: 10
+                                }}
+                            >
+                                {images.map((image) => {
+                                    return (
+                                        <TouchableOpacity key={image} activeOpacity={0.75}>
+                                            <Image
+                                                style={styles.productImage}
+                                                source={{uri: image}}
+                                            />
+                                        </TouchableOpacity>
+                                    )
+                                })}
+                            </Swiper>
+                            <View style={styles.contentWrap}>
+                                <View style={styles.nameWrap}>
+                                    <Text style={styles.name}>{product.name}</Text>
+                                    <Text style={styles.price}>{product.price}</Text>
+                                    <Text style={styles.featuredPrice}>{product.featured_price}</Text>
+                                </View>
+                                <Text style={styles.shortDesc}>{product.short_description}</Text>
+                            </View>
+                        </ScrollView>
                     }
                 </View>
                 <ToolBar style={{position: 'absolute', bottom: 0}}/>
@@ -101,8 +137,56 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         height: Common.window.height - 64 - 20,
-        paddingTop: 25,
         backgroundColor: 'rgb(241, 241, 241)',
+    },
+    contentWrap: {
+        marginLeft: 10,
+        marginRight: 10,
+    },
+
+    productImage: {
+        height: 200,
+        width: Common.window.width,
+    },
+    customDot: {
+        backgroundColor: '#ccc',
+        height: 1.5,
+        width: 15,
+        marginLeft: 2,
+        marginRight: 2,
+        marginTop: 2,
+    },
+    customActiveDot: {
+        backgroundColor: 'white',
+        height: 1.5,
+        width: 15,
+        marginLeft: 2,
+        marginRight: 2,
+        marginTop: 2,
+    },
+
+    nameWrap: {
+        flexDirection: 'row',
+        marginTop: 12,
+    },
+    name: {
+        fontSize: 20,
+        color: '#222',
+    },
+    price: {
+        fontSize: 18,
+        color: '#FC5500',
+        marginLeft: 50,
+    },
+    featuredPrice: {
+        fontSize: 16,
+        color: '#666',
+        marginLeft: 20,
+    },
+    shortDesc: {
+        fontSize: 16,
+        color: '#666',
+        marginTop: 10,
     },
 
     // 底部栏
