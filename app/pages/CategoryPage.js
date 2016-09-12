@@ -81,9 +81,12 @@ export default class CategoryPage extends Component {
 
         return (
             <View style={styles.container}>
+                <View style={styles.headerWrap}>
+                    <Text style={styles.header}>购物车</Text>
+                </View>
                 {isLoading ?
                     <Loading /> :
-                    <View style={styles.container}>
+                    <View style={styles.mainWrap}>
                         <ListView style={styles.categoryList}
                             dataSource={this.state.dsCategory.cloneWithRows(categories)}
                             renderRow={this._renderRowCategory.bind(this)}
@@ -159,16 +162,30 @@ export default class CategoryPage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    headerWrap: {
+        alignItems: 'center',
+        height: 44,
+        backgroundColor: '#ff7419',
+    },
+    header: {
+        color: '#fff',
+        paddingTop: 22,
+        fontSize: 17,
+    },
+    mainWrap: {
+        flex:1,
         flexDirection:'row',
     },
     categoryList: {
         flex:0,
         backgroundColor: '#eee',
         width: 70,
+        height: Common.window.height - 64 - 24,
     },
     productList: {
         flex: 1,
-        height: Common.window.height - 64
+        height: Common.window.height - 64 - 24,
     },
     line:{
         backgroundColor:'#eef0f3',

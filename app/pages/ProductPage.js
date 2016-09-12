@@ -22,11 +22,12 @@ import {
     ScrollView,
     Alert
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Swiper from 'react-native-swiper';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Common from '../common/constants';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Swiper from 'react-native-swiper';
+import CartContainer from '../containers/CartContainer';
 import {productView} from '../actions/productActions';
 
 export default class ProductPage extends React.Component {
@@ -51,7 +52,7 @@ export default class ProductPage extends React.Component {
         }
 
         return (
-            <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={styles.container}>
                 <Header
                     leftIcon='angle-left'
                     leftIconAction={()=>this.props.navigator.pop()}
@@ -97,7 +98,7 @@ export default class ProductPage extends React.Component {
                         </ScrollView>
                     }
                 </View>
-                <ToolBar style={{position: 'absolute', bottom: 0}}/>
+                <ToolBar style={{position: 'absolute', bottom: 0}} {...this.props}/>
             </View>
         )
     }
@@ -113,23 +114,47 @@ class ToolBar extends React.Component {
                         color="gray"
                         size={15}
                     />
-                    <Text style={styles.itemTitle}>分享</Text>
                 </TouchableOpacity>
-                <View style={styles.centerLine}/>
                 <TouchableOpacity style={styles.toolBarItem}>
                     <Icon
                         name="heart-o"
                         color="gray"
                         size={15}
                     />
-                    <Text style={styles.itemTitle}>收藏</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.toolBarItem} onPress={this._onPressCart.bind(this)}>
+                    <Icon
+                        name="shopping-cart"
+                        color="gray"
+                        size={18}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.toolBarItem}>
+                    <View style={styles.addToCartWrap}>
+                        <Text style={styles.addToCart}>加入购物车</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
         )
     }
+
+    _onPressCart() {
+        InteractionManager.runAfterInteractions(() => {
+            this.props.navigator.push({
+                name: 'CartContainer',
+                component: CartContainer,
+                passProps: {...this.props, isShowNavigator:true}
+            })
+        });
+    }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+
     //内容栏
     mainWrap: {
         width: Common.window.width,
@@ -215,5 +240,16 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 12,
         color: 'gray'
+    },
+    addToCartWrap: {
+        flex: 1,
+        backgroundColor: '#fd6161',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addToCart: {
+        flex: 1,
+        color: '#fff',
+        fontSize: 16,
     },
 });

@@ -16,6 +16,7 @@ import homeReducer from './homeReducer';
 import categoryReducer from './categoryReducer';
 import productReducer from './productReducer';
 import articleReducer from './articleReducer';
+import cartReducer from './cartReducer';
 
 import Foods from './foodsReducer';
 import FoodsList from './foodsListReducer';
@@ -30,6 +31,7 @@ export default rootReducer = combineReducers({
     categoryReducer,
     productReducer,
     articleReducer,
+    cartReducer,
 
     Foods,
     FoodsList,

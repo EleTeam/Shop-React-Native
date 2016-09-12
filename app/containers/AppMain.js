@@ -11,6 +11,7 @@ import TabNavigator from 'react-native-tab-navigator';
 
 import HomeContainer from './HomeContainer';
 import CategoryContainer from './CategoryContainer';
+import CartContainer from './CartContainer';
 import UserContainer from './UserContainer';
 
 class AppMain extends Component {
@@ -52,7 +53,7 @@ class AppMain extends Component {
 			    renderIcon={() => <Image source={require("../images/tab/ic_tab_cart.png")} style={styles.iconStyle}/>}
 			    renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_cart_press.png")} style={styles.iconStyle}/>}
 			    onPress={() => this.setState({ selectedTab: 'cart' })}>
-			    <CategoryContainer {...this.props}/>
+			    <CartContainer {...this.props}/>
 			  </TabNavigator.Item>
 			  <TabNavigator.Item
 			  	title="我的"

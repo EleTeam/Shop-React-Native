@@ -13,8 +13,8 @@
  * @type {string}
  */
 
-// const kUrlHost = 'http://local.eleteamapi.ygcr8.com/v1'; //本地服务器
-const kUrlHost = 'http://eleteamapi.ygcr8.com/v1';    //在线服务器
+const kUrlHost = 'http://local.eleteamapi.ygcr8.com/v1'; //本地服务器
+// const kUrlHost = 'http://eleteamapi.ygcr8.com/v1';    //在线服务器
 
 //产品和分类
 export const kUrlCategoryListWithProduct    = kUrlHost + '/category/list-with-product';
@@ -26,3 +26,6 @@ export const kUrlHomeListArticles           = kUrlHost + '/home/list-articles';
 
 //文章
 export const kUrlArticleView                = kUrlHost + '/cms-article/view?id=';
+
+//购物车
+export const kUrlCart                       = kUrlHost + '/cart';

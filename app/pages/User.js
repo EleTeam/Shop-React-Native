@@ -32,8 +32,8 @@ export default class User extends React.Component {
 
         return (
             <View>
-                <View style={styles.header}>
-                    <Text style={{fontSize: 17}}>我的</Text>
+                <View style={styles.headerWrap}>
+                    <Text style={styles.header}>我的</Text>
                 </View>
                 <HeadView {...this.props} />
                 <JurisdictionView />
@@ -128,12 +128,15 @@ class JurisdictionView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        justifyContent: 'center',
+    headerWrap: {
         alignItems: 'center',
         height: 44,
-        borderBottomColor: '#ccc',
-        borderBottomWidth: 0.5
+        backgroundColor: '#ff7419',
+    },
+    header: {
+        color: '#fff',
+        paddingTop: 22,
+        fontSize: 17,
     },
 
     myBgImage: {

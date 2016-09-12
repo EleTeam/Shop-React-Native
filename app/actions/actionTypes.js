@@ -40,6 +40,9 @@ export const kProductViewReceived               = 'kProductViewReceived';
 export const kArticleView                       = 'kArticleView';
 export const kArticleViewReceived               = 'kArticleViewReceived';
 
+//购物车
+export const kCartView                          = 'kCartView';
+export const kCartViewReceived                  = 'kCartViewReceived';
 
 
 

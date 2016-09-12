@@ -21,7 +21,7 @@ import Common from '../common/constants';
 export default class SearchHeader extends React.Component {
     render() {
         return (
-            <View style={styles.header}>
+            <View style={styles.headerWrap}>
                 <TouchableOpacity
                     activeOpacity={0.75}
                     style={styles.searchInput}
@@ -48,23 +48,23 @@ export default class SearchHeader extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    header: {
+    headerWrap: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#ff7419',
         borderBottomColor: '#ccc',
         borderBottomWidth: 0.5,
+        height: 44,
     },
 
     searchInput: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 32,
+        height: 24,
         width: Common.window.width - 30 - 6 * 3,
-        margin: 6,
-        padding: 10,
-        backgroundColor: 'rgb(245, 246, 247)',
+        marginTop: 16,
+        backgroundColor: '#ff7419',
         borderRadius: 2,
     },
 
@@ -74,8 +74,9 @@ const styles = StyleSheet.create({
     },
 
     scanIcon: {
-        width: 30,
-        height: 30,
+        marginTop: 16,
+        width: 20,
+        height: 20,
     },
 
     searchPlaceholder: {
