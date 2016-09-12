@@ -10,19 +10,19 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import User from '../pages/UserPage';
+import MyPage from '../pages/MyPage';
 
-class UserContainer extends Component {
+class MyContainer extends Component {
     render() {
         return (
-            <User {...this.props} />
+            <MyPage {...this.props} />
         )
     }
 }
 
 export default connect((state) => {
-    const { userReducer } = state;
+    const { myReducer } = state;
     return {
-        userReducer
+        myReducer
     }
-})(UserContainer);
+})(MyContainer);

@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+
     headerWrap: {
         alignItems: 'center',
         height: 44,

@@ -12,7 +12,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import HomeContainer from './HomeContainer';
 import CategoryContainer from './CategoryContainer';
 import CartContainer from './CartContainer';
-import UserContainer from './UserContainer';
+import MyContainer from './MyContainer';
 
 class AppMain extends Component {
     constructor(props) {
@@ -40,8 +40,8 @@ class AppMain extends Component {
 			    selected={this.state.selectedTab === 'order'}
 			    selectedTitleStyle={styles.selectedTextStyle}
 			    titleStyle={styles.textStyle}
-			    renderIcon={() => <Image source={require("../images/tab/ic_tab_order.png")} style={styles.iconStyle}/>}
-			    renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_order_press.png")} style={styles.iconStyle}/>}
+			    renderIcon={() => <Image source={require("../images/tab/ic_tab_category.png")} style={styles.iconStyle}/>}
+			    renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_category_press.png")} style={styles.iconStyle}/>}
 			    onPress={() => this.setState({ selectedTab: 'order' })}>
 			    <CategoryContainer {...this.props}/>
 			  </TabNavigator.Item>
@@ -60,10 +60,10 @@ class AppMain extends Component {
 			    selected={this.state.selectedTab === 'center'}
 			    selectedTitleStyle={styles.selectedTextStyle}
 			    titleStyle={styles.textStyle}
-			    renderIcon={() => <Image source={require("../images/tab/ic_tab_center.png")} style={styles.iconStyle}/>}
-			    renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_center_press.png")} style={styles.iconStyle}/>}
+			    renderIcon={() => <Image source={require("../images/tab/ic_tab_my.png")} style={styles.iconStyle}/>}
+			    renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_my_press.png")} style={styles.iconStyle}/>}
 			    onPress={() => this.setState({ selectedTab: 'center' })}>
-			    <UserContainer {...this.props}/>
+			    <MyContainer {...this.props}/>
 			  </TabNavigator.Item>
 			</TabNavigator>
         );
