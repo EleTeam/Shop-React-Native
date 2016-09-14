@@ -24,6 +24,8 @@ export const kHomeListArticles                  = 'kHomeListArticles';
 export const kHomeListArticlesReceived          = 'kHomeListArticlesReceived';
 
 // 用户
+export const kUserRegister                      = 'kUserRegister';
+export const kUserRegisterReceived              = 'kUserRegisterReceived';
 export const kUserView                          = 'kUserView';
 export const kUserLoggedDoing                   = 'kUserLoggedDoing';
 export const kUserLoggedIn                      = 'kUserLoggedIn';

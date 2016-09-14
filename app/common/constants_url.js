@@ -29,3 +29,6 @@ export const kUrlArticleView                = kUrlHost + '/cms-article/view?id='
 
 //购物车
 export const kUrlCart                       = kUrlHost + '/cart';
+
+//用户
+export const kUrlUserRegister               = kUrlHost + '/user/register';

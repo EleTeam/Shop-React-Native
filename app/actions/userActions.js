@@ -16,12 +16,33 @@
 
 import * as types from './actionTypes';
 import Util from '../common/utils';
+import * as urls from '../common/constants_url';
 import { Alert } from 'react-native';
 
 /**
  *
  * @returns {function()}
  */
+export let userRegister = (mobile, password, code) => {
+    let url = urls.kUrlUserRegister;
+    let data = {
+        mobile: mobile,
+        password: password,
+        code: code
+    };
+    return (dispatch) => {
+        dispatch({'type': types.kUserRegister});
+        Util.post(url, data,
+            (response) => {
+                dispatch({'type': types.kUserRegisterReceived, 'user': response.data.user});
+            },
+            (error) => {
+                Alert.alert(error.message);
+                dispatch({'type': types.kActionError});
+            });
+    }
+};
+
 export let userView = () => {
     let url = 'http://local.eleteamapi.ygcr8.com/v1/user/view?id=2';
     return (dispatch) => {
@@ -52,4 +73,4 @@ export let userLoggedIn = () => {
                 dispatch({'type': types.kUserLoggedError});
             });
     }
-}
+};

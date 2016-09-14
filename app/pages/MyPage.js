@@ -22,7 +22,7 @@ import {
 import Common from '../common/constants';
 import ImageButton from '../common/ImageButton';
 import TextButton from '../common/TextButton';
-import UserLoginPage from './UserLoginPage';
+import LoginPage from './LoginPage';
 
 export default class MyPage extends Component {
   render() {
@@ -31,8 +31,8 @@ export default class MyPage extends Component {
             <View style={styles.headerWrap}>
                 <Text style={styles.header}>我的</Text>
             </View>
-            <HeadView {...this.props} />
-            <ScrollView style={{ width: Common.window.width, height: Common.window.height, marginTop: -20, backgroundColor: 'rgba(240,240,240,0.9)' }}>
+            <ScrollView style={{ width: Common.window.width, height: Common.window.height, backgroundColor: 'rgba(240,240,240,0.9)' }}>
+                <HeadView {...this.props} />
                 <Text style={{ width: Common.window.width, height: 40, position: 'absolute', padding: 10, fontSize: 18, backgroundColor: 'white' }}>
               我的订单
             </Text>
@@ -208,11 +208,13 @@ class HeadView extends React.Component {
 
     _onPressFeedItem(feedItem) {
         InteractionManager.runAfterInteractions(() => {
+            // Alert.alert(this.props);
             this.props.navigator.push({
-                name: 'UserLoginPage',
-                component: UserLoginPage,
+                name: 'LoginPage',
+                component: LoginPage,
                 passProps: {
                     feed: feedItem,
+                    ...this.props,
                 }
             })
         });
@@ -238,7 +240,7 @@ const styles = StyleSheet.create({
     myBgImage: {
         flex: 1,
         width: Common.window.width,
-        height: 160,
+        height: 130,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -254,15 +256,4 @@ const styles = StyleSheet.create({
         padding: 5,
         marginTop: 10,
     },
-
-  welcome: {
-    fontSize: 20,
-    // textAlign: 'center',
-    marginTop: 40,
-    marginLeft: 30,
-    color: 'white',
-    position: 'absolute'
-    // position: 'relative',
-
-  }
 });
