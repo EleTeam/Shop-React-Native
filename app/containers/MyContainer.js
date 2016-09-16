@@ -21,8 +21,8 @@ class MyContainer extends Component {
 }
 
 export default connect((state) => {
-    const { myReducer } = state;
+    const { userReducer } = state;
     return {
-        myReducer
+        userReducer
     }
 })(MyContainer);

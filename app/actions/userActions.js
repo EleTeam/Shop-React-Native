@@ -54,6 +54,33 @@ export let userView = () => {
     }
 };
 
+export let userLogin = (mobile, password) => {
+    let url = urls.kUrlUserLogin;
+    let data = {
+        mobile: mobile,
+        password: password
+    };
+    return (dispatch) => {
+        dispatch({'type': types.kUserLogin});
+        Util.post(url, data,
+            (status, code, message, data, share) => {
+                let app_cart_cookie_id = '';
+                let user = {};
+                if (status) {
+                    user = data.user;
+                    app_cart_cookie_id = data.app_cart_cookie_id;
+                    Storage.setAppCartCookieId(app_cart_cookie_id);
+                    Storage.setUser(user);
+                }
+                dispatch({type:types.kUserLoginReceived, status:status, code:code, message:message, share:share, user:user, app_cart_cookie_id:app_cart_cookie_id});
+            },
+            (error) => {
+                Alert.alert(error.message);
+                dispatch({'type': types.kActionError});
+            });
+    }
+};
+
 export let userLogout = () => {
     let url = urls.kUrlUserLogout;
     return (dispatch) => {
@@ -64,6 +91,7 @@ export let userLogout = () => {
                 if (status) {
                     app_cart_cookie_id = data.app_cart_cookie_id;
                     Storage.setAppCartCookieId(app_cart_cookie_id);
+                    Storage.setUser({});
                 }
                 dispatch({type:types.kUserLogoutReceived, status:status, code:code, message:message, share:share, app_cart_cookie_id:app_cart_cookie_id});
             },

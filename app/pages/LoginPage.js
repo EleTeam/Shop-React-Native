@@ -15,36 +15,48 @@ import {
     TextInput,
     View,
     Image,
-    PixelRatio,
-    ScrollView,
     TouchableOpacity,
     InteractionManager,
 } from 'react-native';
+import Toast from 'react-native-root-toast';
 import Header from '../components/Header';
+import * as Storage from '../common/Storage';
 import RegisterContainer from '../containers/RegisterContainer';
+import {userLogin} from '../actions/userActions';
+import Loading from '../components/Loading';
 
 export default class LoginPage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            username: '',
+            mobile: '',
             password: '',
-            spinnerLoading:false,
-            memberObject:null
         };
     }
     componentWillUnmount(){
         // this.unsubscribe();
     }
     componentDidMount(){
-        // this.unsubscribe = MemberStore.listen(this.onLogined.bind(this));
+        // Storage.getUser()
+        // .then((user) => {
+        //     if (user.id) {
+        //         this.props.navigator.popToTop();
+        //     }
+        // });
     }
-    componentWillUpdate(nextProps,nextState){
-        // if(!_.isEqual(this.state.memberObject,nextState.memberObject) && !_.isEmpty(nextState.memberObject)){
-        //     this.props.navigator.replace({'id':'ucenter'});
-        // }else{
-        // }
+
+    componentWillUpdate(nextProps, nextState) {
+        InteractionManager.runAfterInteractions(() => {
+            const {userReducer} = this.props;
+            if (userReducer.user.id) {
+                this.props.navigator.popToTop();
+            }
+            if (!userReducer.isLoading && userReducer.status == false) {
+                Toast.show(userReducer.message, {position: Toast.positions.CENTER});
+            }
+        });
     }
+
     render(){
         return (
             <View style={styles.container}>
@@ -59,7 +71,7 @@ export default class LoginPage extends Component {
                         ref="login_name"
                         placeholder='请输入手机号'
                         style={styles.loginInput}
-                        onChangeText={this.onChangeName.bind(this)} />
+                        onChangeText={this.onChangeMobile.bind(this)} />
                 </View>
                 <View style={[styles.formInput, styles.formInputSplit]}>
                     <Image source={require('../images/passicon.png')} style={{width:25,height:25,resizeMode: 'contain'}}/>
@@ -68,7 +80,7 @@ export default class LoginPage extends Component {
                         style={styles.loginInput}
                         secureTextEntry={true}
                         placeholder='请输入密码'
-                        onChangeText={this.onChangePswd.bind(this)} />
+                        onChangeText={this.onChangePassword.bind(this)} />
                 </View>
                 <TouchableOpacity style={styles.loginBtn} onPress={this._login.bind(this)}>
                     <Text style={styles.loginText}>登录</Text>
@@ -102,34 +114,31 @@ export default class LoginPage extends Component {
     }
 
     _login(){
-        // MemberAction.login(this.state.username,this.state.password);
-    }
+        let {mobile, password} = this.state;
 
-    onChangeName(text){
-        this.setState({'username': text});
-    }
-
-    onChangePswd(text){
-        this.setState({'password': text});
-    }
-
-    handleLogin(){
-        if(!this.state.username || !this.state.password){
-            AlertIOS.alert(
-                'username, password?'
-            );
+        if (!mobile.length) {
+            Toast.show('请输入正确的手机号', {position:Toast.positions.CENTER});
             return;
         }
-        let opt = {
-            'name': this.state.username,
-            'password': this.state.password,
-        };
-        this.props.dispatch(logIn(opt));
+        if (!password.length) {
+            Toast.show('请输入密码', {position:Toast.positions.CENTER});
+            return;
+        }
+
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch} = this.props;
+            dispatch(userLogin(mobile, password));
+        });
     }
 
-    handleRegister(){
-        const {dispatch} = this.props;
-        dispatch(skipLogin());
+    onChangeMobile(text){
+        this.state.mobile = text;
+        // this.setState({'mobile': text});
+    }
+
+    onChangePassword(text){
+        this.state.password = text;
+        // this.setState({'password': text});
     }
 }
 

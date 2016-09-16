@@ -9,8 +9,6 @@
 #### EleTeam开源项目 - 电商全套解决方案之 React Native 版 - Shop-React-Native。一个类似京东/天猫/淘宝的商城，有对应的服务端支持，由EleTeam团队维护！
 #### 服务端是PHP商城，对应项目是 Shop-PHP-Yii2，https://github.com/EleTeam/Shop-PHP-Yii2
 
-#### react-native 的学习文档: http://reactnative.cn/docs/0.31/getting-started.html
-
 ### 功能如下:
     支持下拉刷新和上拖加载更多
     广告模块
@@ -49,7 +47,10 @@
           在Android项目中可能是./android/app/src/main/java/com/项目名/MainActivity.java中的mReactRootView.startReactApplication(mReactInstanceManager, "项目名", null); 没有保持一致，修改方法：编辑成相同的参数即可。
         2. 有可能你同时在运行一个以上的程序。如果你的react-native在运行程序A而你打开了程序B，也会出现相同的问题。解决方法：关闭其它React Native程序, 只运行一个。
         
-
+#### react-native 的学习文档: 
+    入门基础: http://reactnative.cn/docs/0.31/getting-started.html
+    组件的生命周期: http://www.race604.com/react-native-component-lifecycle
+    
 ### 部分App界面：
 ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/01.png)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/02.jpg)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/03.jpg)     
 

@@ -22,9 +22,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Header extends React.Component {
-
     render() {
-
         let NavigationBar = [];
 
         // 左边图片按钮
@@ -44,14 +42,15 @@ export default class Header extends React.Component {
         // 标题
         if (this.props.title != undefined) {
             NavigationBar.push(
-                <Text key={'title'} style={styles.title}>{this.props.title}</Text>
+                <View key={'title'} style={styles.titleWrap}>
+                    <Text style={styles.title}>{this.props.title}</Text>
+                </View>
             )
         }
 
         // 自定义标题View
         if (this.props.titleView != undefined) {
             let Component = this.props.titleView;
-
             NavigationBar.push(
                 <Component key={'titleView'}/>
             )
@@ -59,7 +58,6 @@ export default class Header extends React.Component {
 
         // 右边图片按钮
         if (this.props.rightIcon != undefined) {
-
             NavigationBar.push(
                 <TouchableOpacity
                     key={'rightIcon'}
@@ -110,7 +108,6 @@ export default class Header extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
     navigationBarContainer: {
         flexDirection: 'row',
         height: 44,
@@ -119,22 +116,23 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         backgroundColor: 'white'
     },
-
+    titleWrap: {
+        flex:1,
+        alignItems:'center',
+    },
     title: {
         fontSize: 15,
-        marginLeft: 15,
+        marginLeft: -40,
     },
-
     leftIcon: {
-        marginLeft: 15,
+        paddingLeft: 15,
+        paddingRight: 15,
     },
-
     rightIcon: {
         position: 'absolute',
         right: 10,
         top: 7
     },
-
     rightButton: {
         position: 'absolute',
         right: 10,
@@ -142,12 +140,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
     },
-
     buttonTitleFont: {
         color: 'white',
         fontSize: 15,
     },
-
     rightMenu: {
         position: 'absolute',
         right: 10,
@@ -156,4 +152,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-})
+});

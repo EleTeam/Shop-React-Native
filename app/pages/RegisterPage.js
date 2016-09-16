@@ -29,32 +29,33 @@ export default class RegisterPage extends Component {
             mobile: '',
             password: '',
             code:'',
-            spinnerLoading:false,
-            memberObject:null,
-            verifyCodeText:'获取验证码'
+            verifyCodeText:'获取验证码',
+            user:{},
         };
         this.timer = null;
         this.timeHit = 0;
     }
+
     componentWillUnmount(){
         // this.unsubscribe();
     }
+
     componentDidMount(){
         // this.unsubscribe = MemberStore.listen(this.onLogined.bind(this));
     }
+
     componentWillUpdate(nextProps, nextState){
         InteractionManager.runAfterInteractions(() => {
-            const {dispatch, userReducer} = this.props;
-            // console.log(userReducer);
+            const {userReducer} = this.props;
+            if(userReducer.user.id){
+                this.props.navigator.popToTop();
+            }
             if (!userReducer.isLoading && userReducer.status == false) {
                 Toast.show(userReducer.message, {position:Toast.positions.CENTER});
             }
         });
-        // if(!_.isEqual(this.state.memberObject,nextState.memberObject) && !_.isEmpty(nextState.memberObject)){
-        //     this.props.navigator.replace({'id':'ucenter'});
-        // }else{
-        // }
     }
+
     render(){
         return (
             <View style={styles.container}>

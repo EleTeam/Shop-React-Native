@@ -16,14 +16,19 @@ import {
     Image,
     PixelRatio,
     ScrollView,
+    Alert,
     TouchableOpacity,
+    TouchableHighlight,
     InteractionManager,
 } from 'react-native';
 import Common from '../common/constants';
+import commonStyles, {colors} from '../common/commonStyles';
 import * as Storage from '../common/Storage';
 import ImageButton from '../common/ImageButton';
 import TextButton from '../common/TextButton';
+import {userLogout} from '../actions/userActions';
 import LoginContainer from '../containers/LoginContainer';
+// import LoginContainer from '../pages/LoginPage';
 
 export default class MyPage extends Component {
     constructor(props) {
@@ -33,35 +38,46 @@ export default class MyPage extends Component {
         };
     }
 
-    componentWillMount() {
-        Storage.getUser()
-        .then((user) => {
-            this.setState({user:user});
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            Storage.getUser()
+            .then((user) => {
+                this.setState({user: user});
+            });
         });
     }
 
+    componentWillUpdate() {
+        const {userReducer} = this.props;
+        if (userReducer.user.id) {
+            this.state.user = userReducer.user;
+        }
+    }
+
     render() {
+        let user = this.state.user;
         return (
             <View style={styles.container}>
                 <View style={styles.headerWrap}>
                     <Text style={styles.header}>我的</Text>
                 </View>
                 <ScrollView style={{
-                    width: Common.window.width,
-                    height: Common.window.height,
                     backgroundColor: 'rgba(240,240,240,0.9)'
                 }}>
                     <Image style={styles.myBgImage} source={require('../images/img_my_bg.png')}>
-                        <Image style={styles.headIcon} source={require('../images/img_default_head.png')}/>
-                        {this.state.user.id ?
-                            <Text style={{color: 'white'}}>{this.state.user.mobile}</Text> :
-                            <TouchableOpacity
-                                style={styles.login}
-                                onPress={this._onPressLogin.bind(this)}
-                            >
-                                <Text style={{color: 'white'}}>点击登录</Text>
-                            </TouchableOpacity>
-                        }
+                        <TouchableOpacity
+                            style={styles.loginWrap}
+                            onPress={this._onPressHead.bind(this)}
+                        >
+                            {user.avatar ?
+                                <Image style={styles.headIcon} source={{uri:user.avatar}}/> :
+                                <Image style={styles.headIcon} source={require('../images/img_default_head.png')}/>
+                            }
+                            {user.id ?
+                                <Text style={styles.login}>{this.state.user.mobile}</Text> :
+                                <Text style={styles.login}>点击登录</Text>
+                            }
+                        </TouchableOpacity>
                     </Image>
 
                     <Text style={{
@@ -287,42 +303,48 @@ export default class MyPage extends Component {
                         </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{
-                        marginTop: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        height: 50,
-                        position: 'relative',
-                        backgroundColor: 'white'
-                    }} activeOpacity={0.75} >
-                        <Image
-                            source={require('../images/kf.png')}
-                            style={{width: 30, height: 30, marginLeft: 20}}
-                        />
-                        <Text style={{marginLeft: 10}}>
-                            退出登录
-                        </Text>
+                    <TouchableOpacity
+                        style={[commonStyles.btn, {marginBottom:20}]}
+                        onPress={() => {
+                            Alert.alert(
+                                "确定要登录么?",
+                                "",
+                                [
+                                    {text:"确定", onPress:()=>{this._logout()}},
+                                    {text:"取消", onPress:()=>{}},
+                                ]
+                            );
+                        }}
+                        underlayColor={colors.backGray}
+                    >
+                        <Text style={[{color: colors.white, fontWeight: "bold",textAlign:"center"}]}> 退出登录 </Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
         );
     }
 
-    _onPressLogin() {
-        InteractionManager.runAfterInteractions(() => {
-            // Alert.alert(this.props);
-            this.props.navigator.push({
-                name: 'LoginContainer',
-                component: LoginContainer,
-                passProps: {
-                    ...this.props,
-                }
-            })
-        });
+    _onPressHead() {
+        let user = this.state.user;
+        if(!user.id) {
+            InteractionManager.runAfterInteractions(() => {
+                this.props.navigator.push({
+                    name: 'LoginContainer',
+                    component: LoginContainer,
+                    passProps: {
+                        ...this.props,
+                    }
+                })
+            });
+        }
     }
 
     _logout() {
-
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch} = this.props;
+            dispatch(userLogout());
+            this.setState({user:{}});
+        });
     }
 }
 
@@ -353,10 +375,13 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
     },
-    login: {
+    loginWrap: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    login: {
         borderColor: 'white',
+        color: 'white',
         borderWidth: 0.5,
         padding: 5,
         marginTop: 10,

@@ -13,15 +13,15 @@ import {Dimensions} from 'react-native';
 let window = {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-}
+};
 
 let colors = {
     themeColor: 'rgb(217, 51, 58)',
-}
+};
 
 let storeKeys = {
     SEARCH_HISTORY_KEY: 'SEARCH_HISTORY_KEY',
-}
+};
 
 let mapper = {
     'calory': {name: '热量', unit: ''},
@@ -47,11 +47,11 @@ let mapper = {
     'phosphor': {name: '磷', unit: '毫克'},
     'natrium': {name: '钠', unit: '毫克'},
     'selenium': {name: '硒', unit: '毫克'}
-}
+};
 
 export default {
     window: window,
     colors: colors,
     storeKeys: storeKeys,
     ingredientMapper: mapper
-}
+};

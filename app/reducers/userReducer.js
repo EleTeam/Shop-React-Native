@@ -28,7 +28,7 @@ let userReducer = (state=initialState, action) => {
                 isLoading: true,
             };
         case types.kUserRegisterReceived:
-            let isLoggedIn = state.isLoggedIn;
+            var isLoggedIn = state.isLoggedIn;
             if (action.status) {
                 isLoggedIn = true;
             }
@@ -36,7 +36,39 @@ let userReducer = (state=initialState, action) => {
                 ...state,
                 ...action,
                 isLoading: false,
-                isLoggedIn: true,
+                isLoggedIn: isLoggedIn,
+            };
+        case types.kUserLogin:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.kUserLoginReceived:
+            var isLoggedIn = state.isLoggedIn;
+            if (action.status) {
+                isLoggedIn = true;
+            }
+            return {
+                ...state,
+                ...action,
+                isLoading: false,
+                isLoggedIn: isLoggedIn,
+            };
+        case types.kUserLogout:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.kUserLogoutReceived:
+            var isLoggedIn = state.isLoggedIn;
+            if (action.status) {
+                isLoggedIn = false;
+            }
+            return {
+                ...state,
+                ...action,
+                isLoading: false,
+                isLoggedIn: isLoggedIn,
             };
         default:
             return state;
