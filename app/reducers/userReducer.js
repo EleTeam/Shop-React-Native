@@ -11,9 +11,13 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-    isLoading: true,
-    isLoggedIn: false,
+    status: false,
+    code: 0,
+    message: '',
     user: {},
+    share: {},
+    isLoading: false,
+    isLoggedIn: false,
 };
 
 let userReducer = (state=initialState, action) => {
@@ -24,40 +28,19 @@ let userReducer = (state=initialState, action) => {
                 isLoading: true,
             };
         case types.kUserRegisterReceived:
+            let isLoggedIn = state.isLoggedIn;
+            if (action.status) {
+                isLoggedIn = true;
+            }
             return {
                 ...state,
+                ...action,
                 isLoading: false,
                 isLoggedIn: true,
-                user: action.user,
             };
-
-
-        case types.kUserLoggedDoing:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case types.kUserLoggedIn:
-            return {
-                ...state,
-                isLoggedIn: true,
-                user: action.user,
-            };
-        case types.kUserLoggedOut:
-            return {
-                ...state,
-                isLoggedIn: false,
-                user: {},
-            }
-        case types.kUserLoggedError:
-            return {
-                ...state,
-                isLoggedIn: false,
-                user: {},
-            }
         default:
             return state;
     }
-}
+};
 
 export default userReducer;

@@ -91,7 +91,6 @@ export default class CategoryPage extends Component {
                             dataSource={this.state.dsCategory.cloneWithRows(categories)}
                             renderRow={this._renderRowCategory.bind(this)}
                             enableEmptySections={true}
-                            activeOpacity={1}
                         />
                         <ListView style={styles.productList}
                               dataSource={this.state.dsProduct.cloneWithRows(products)}
@@ -107,12 +106,15 @@ export default class CategoryPage extends Component {
     //=== 分类栏方法 ===
 
     _renderRowCategory(category, sectionId, rowId) {
+        let categoryItemStyle = [styles.categoryItem];
+        if (curCategoryIndex == rowId) {
+            categoryItemStyle.push(styles.categoryItemActive);
+        }
         return (
             <TouchableOpacity
-                style={styles.foodsCell}
                 onPress={this._onPressCategory.bind(this, rowId)}
             >
-                <View style={styles.categoryItem}>
+                <View style={categoryItemStyle}>
                     <Text>{category.name}</Text>
                 </View>
             </TouchableOpacity>
@@ -197,6 +199,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',    //水平居中
         justifyContent: 'center',//垂直居中
         height:50,
+    },
+    categoryItemActive: {
+        backgroundColor: '#fff',
     },
     category_bg_select:{
         backgroundColor:'#d7ead6',

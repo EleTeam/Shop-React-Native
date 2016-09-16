@@ -29,10 +29,12 @@ export let categoryListWithProduct = (isLoading) => {
     return (dispatch) => {
         dispatch({'type': types.kCategoryListWithProduct, 'isLoading':isLoading});
         Util.get(url,
-            (response) => {
-                // Alert.alert(response);
-                let categories = response.data.categories;
-                dispatch({'type': types.kCategoryListWithProductReceived, 'isLoading':false, 'categories': categories});
+            (status, code, message, data, share) => {
+                let categories = [];
+                if (status) {
+                    categories = data.categories;
+                }
+                dispatch({type:types.kCategoryListWithProductReceived, status:status, code:code, message:message, share:share, categories:categories});
             },
             (error) => {
                 // Alert.alert(error.message);
@@ -51,10 +53,12 @@ export let productView = (product_id) => {
     return (dispatch) => {
         dispatch({'type': types.kProductView, 'isLoading':true});
         Util.get(url,
-            (response) => {
-                let product = response.data.product;
-                // Alert.alert(product);
-                dispatch({'type': types.kProductViewReceived, 'isLoading':false, 'product': product});
+            (status, code, message, data, share) => {
+                let product = [];
+                if (status) {
+                    product = data.product;
+                }
+                dispatch({type:types.kProductViewReceived, status:status, code:code, message:message, share:share, product:product});
             },
             (error) => {
                 // Alert.alert(error.message);

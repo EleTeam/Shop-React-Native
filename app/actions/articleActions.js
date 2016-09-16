@@ -17,11 +17,18 @@ export let articleView = (id)=> {
 
     return dispatch => {
         dispatch({type: types.kArticleView});
-        return Util.get(url, (response) => {
-            dispatch({type: types.kArticleViewReceived, article: response.data.article});
-        }, (error) => {
-            // console.log('Fetch banner list error: ' + error);
-            dispatch({'type': types.kActionError});
-        });
+        return Util.get(url,
+            (status, code, message, data, share) => {
+                let article = [];
+                if (status) {
+                    article = data.article;
+                }
+                dispatch({type:types.kArticleViewReceived, status:status, code:code, message:message, share:share, article:article});
+            },
+            (error) => {
+                // console.log('Fetch banner list error: ' + error);
+                dispatch({'type': types.kActionError});
+            }
+        );
     }
 };

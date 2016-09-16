@@ -18,6 +18,7 @@ import {
     TouchableOpacity,
     InteractionManager,
 } from 'react-native';
+import Toast from 'react-native-root-toast';
 import Header from '../components/Header';
 import {userRegister} from '../actions/userActions';
 
@@ -41,7 +42,14 @@ export default class RegisterPage extends Component {
     componentDidMount(){
         // this.unsubscribe = MemberStore.listen(this.onLogined.bind(this));
     }
-    componentWillUpdate(nextProps,nextState){
+    componentWillUpdate(nextProps, nextState){
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch, userReducer} = this.props;
+            // console.log(userReducer);
+            if (!userReducer.isLoading && userReducer.status == false) {
+                Toast.show(userReducer.message, {position:Toast.positions.CENTER});
+            }
+        });
         // if(!_.isEqual(this.state.memberObject,nextState.memberObject) && !_.isEmpty(nextState.memberObject)){
         //     this.props.navigator.replace({'id':'ucenter'});
         // }else{
@@ -92,15 +100,18 @@ export default class RegisterPage extends Component {
     }
 
     _onChangeMobile(text) {
-        this.setState({'mobile': text});
+        this.state.mobile = text;
+        // this.setState({'mobile': text});
     }
 
     _onChangePassword(text){
-        this.setState({'password': text});
+        this.state.password = text;
+        // this.setState({'password': text});
     }
 
     _onChangeCode(text){
-        this.setState({'code': text});
+        this.state.code = text;
+        // this.setState({'code': text});
     }
 
     _sendVerifyCode(){
@@ -127,27 +138,25 @@ export default class RegisterPage extends Component {
     };
 
     _register(){
-        let {dispatch} = this.props;
         let {mobile, password, code} = this.state;
 
-        if (mobile.length != 11) {
-            alert('请输入正确的手机号');
+        if (!mobile.length) {
+            Toast.show('请输入正确的手机号', {position:Toast.positions.CENTER});
             return;
         }
         if (password.length < 6) {
-            alert('密码必须大于6位');
+            Toast.show('密码必须大于6位', {position:Toast.positions.CENTER});
             return;
         }
-        if (code.length != 4) {
-            alert('验证码必须为4位');
-            return;
-        }
-        if (!mobile.length || !password.length || !code.length) {
-            alert('请输入完整信息');
+        if (!code.length) {
+            Toast.show('请输入验证码', {position:Toast.positions.CENTER});
             return;
         }
 
-        // dispatch(userRegister(mobile, password, code));
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch} = this.props;
+            dispatch(userRegister(mobile, password, code));
+        });
     };
 }
 

@@ -26,11 +26,9 @@ let productReducer = (state = initialState, action) => {
                 isLoading: true,
             };
         case types.kProductViewReceived:
-            // alert(2);
-            // Alert.alert(action.product.name);
             return {
                 ...state,
-                product: action.product,
+                ...action,
                 isLoading: false,
             };
         default:

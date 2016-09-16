@@ -17,12 +17,9 @@
 import * as types from './actionTypes';
 import Util from '../common/utils';
 import * as urls from '../common/constants_url';
+import * as Storage from '../common/Storage';
 import { Alert } from 'react-native';
 
-/**
- *
- * @returns {function()}
- */
 export let userRegister = (mobile, password, code) => {
     let url = urls.kUrlUserRegister;
     let data = {
@@ -31,13 +28,17 @@ export let userRegister = (mobile, password, code) => {
         code: code
     };
     return (dispatch) => {
-        dispatch({'type': types.kUserRegister});
+        dispatch({type: types.kUserRegister});
         Util.post(url, data,
-            (response) => {
-                dispatch({'type': types.kUserRegisterReceived, 'user': response.data.user});
+            (status, code, message, data, share) => {
+                let user = {};
+                if (status) {
+                    user = data.user;
+                    Storage.setUser(user);
+                }
+                dispatch({type:types.kUserRegisterReceived, status:status, code:code, message:message, user:user, share:share});
             },
             (error) => {
-                Alert.alert(error.message);
                 dispatch({'type': types.kActionError});
             });
     }
@@ -51,26 +52,24 @@ export let userView = () => {
             () => {},
             () => {});
     }
-}
+};
 
-export let userViewPublic = (id) => {
-    let url = 'http://local.eleteamapi.ygcr8.com/v1/user/view?id=2';
-    return () => {
-
-    }
-}
-
-export let userLoggedIn = () => {
-    let url = 'http://local.eleteamapi.ygcr8.com/v1/user/view?id=2';
+export let userLogout = () => {
+    let url = urls.kUrlUserLogout;
     return (dispatch) => {
-        dispatch({'type': types.kUserLoggedDoing});
+        dispatch({'type': types.kUserLogout});
         Util.get(url,
-            (response) => {
-                dispatch({'type': types.kUserLoggedIn, 'user': response});
+            (status, code, message, data, share) => {
+                let app_cart_cookie_id = '';
+                if (status) {
+                    app_cart_cookie_id = data.app_cart_cookie_id;
+                    Storage.setAppCartCookieId(app_cart_cookie_id);
+                }
+                dispatch({type:types.kUserLogoutReceived, status:status, code:code, message:message, share:share, app_cart_cookie_id:app_cart_cookie_id});
             },
             (error) => {
                 Alert.alert(error.message);
-                dispatch({'type': types.kUserLoggedError});
+                dispatch({'type': types.kActionError});
             });
     }
 };

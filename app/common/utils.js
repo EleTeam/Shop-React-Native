@@ -10,6 +10,8 @@
 
 'use strict';
 
+// import {FormData} from 'react-native';
+
 let Util = {
     /**
      * http get 请求简单封装
@@ -21,7 +23,8 @@ let Util = {
         fetch(url)
             .then((response) => response.text())
             .then((responseText) => {
-                successCallback(JSON.parse(responseText));
+                let result = JSON.parse(responseText);
+                successCallback(result.status, result.code, result.message, result.data, result.share);
             })
             .catch((err) => {
                 failCallback(err);
@@ -36,19 +39,28 @@ let Util = {
      * @param failCallback failCallback 请求失败回调
      */
     post: (url, data, successCallback, failCallback) => {
+        let formData = new FormData();
+        Object.keys(data).map(function(key) {
+            var value = data[key];
+            formData.append(key, value);
+        });
+
         let fetchOptions = {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data',
             },
-            body: JSON.stringify(data)
+            body: formData
+            // body: JSON.stringify(data)
         };
 
         fetch(url, fetchOptions)
             .then((response) => response.text())
             .then((responseText) => {
-                successCallback(JSON.parse(responseText));
+                let result = JSON.parse(responseText);
+                successCallback(result.status, result.code, result.message, result.data, result.share);
             })
             .catch((err) => {
                 failCallback(err);
@@ -67,6 +79,6 @@ let Util = {
         }
         alert(description);
     },
-}
+};
 
 export default Util;

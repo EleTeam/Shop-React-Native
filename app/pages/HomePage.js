@@ -65,16 +65,16 @@ export default class HomePage extends Component {
 
     render() {
         const {homeReducer} = this.props;
-        let bannerList = homeReducer.bannerList;
-        let feedList = homeReducer.feedList;
-        let sourceData = {'banner': [bannerList], 'feed': feedList};
+        let banners = homeReducer.banners;
+        let articles = homeReducer.articles;
+        let sourceData = {'banner': [banners], 'feed': articles};
         // alert(homeReducer.isLoading);
 
         let sectionIDs = ['banner', 'feed'];
         let rowIDs = [[0]];
 
         let row = [];
-        for (let i = 0; i < feedList.length; i++) {
+        for (let i = 0; i < articles.length; i++) {
             row.push(i);
         }
         rowIDs.push(row);
@@ -124,7 +124,7 @@ export default class HomePage extends Component {
     _renderRow(data, sectionID, rowID) {
 
         if (sectionID == 'banner') {
-            let bannerList = data;
+            let banners = data;
             return (
                 <Swiper
                     height={200}
@@ -136,7 +136,7 @@ export default class HomePage extends Component {
                         bottom: 10
                     }}
                 >
-                    {bannerList.map((banner) => {
+                    {banners.map((banner) => {
                         return (
                             <TouchableOpacity key={banner.name} activeOpacity={0.75}>
                                 <Image

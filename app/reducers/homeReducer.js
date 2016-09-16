@@ -10,8 +10,8 @@
 
 import * as types from '../actions/actionTypes';
 const initialState = {
-    bannerList: [],
-    feedList: [],
+    banners: [],
+    articles: [],
     isLoading: true,
     isLoadMore: false,
     isRefreshing: false,
@@ -26,7 +26,7 @@ let homeReducer = (state = initialState, action) => {
         case types.kBannerListReceived:
             return {
                 ...state,
-                bannerList: action.bannerList,
+                banners: action.banners,
             };
         case types.kHomeListArticles:
 
@@ -36,11 +36,11 @@ let homeReducer = (state = initialState, action) => {
                 isLoading: action.isLoading,
             });
         case types.kHomeListArticlesReceived:
-            return Object.assign({}, state, {
-                feedList: state.isLoadMore ? state.feedList.concat(action.feedList) : action.feedList,
-                isRefreshing: false,
+            return {
+                ...state,
+                articles: action.articles,
                 isLoading: false,
-            });
+            };
         default:
             return state;
     }

@@ -18,8 +18,12 @@ export let bannerList = ()=> {
         // 请求轮播数据
         dispatch({type: types.kBannerList});
         return Util.get(url,
-            (response) => {
-                dispatch({type: types.kBannerListReceived, bannerList: response.data.banners});
+            (status, code, message, data, share) => {
+                let banners = [];
+                if (status) {
+                    banners = data.banners;
+                }
+                dispatch({type:types.kBannerListReceived, status:status, code:code, message:message, share:share, banners:banners});
             },
             (error) => {
                 // console.log('Fetch banner list error: ' + error);
@@ -42,12 +46,18 @@ export let homeListArticles = (page, isLoadMore, isRefreshing, isLoading)=> {
             isLoading: isLoading,
         });
 
-        return Util.get(url, (response) => {
-            dispatch({type:types.kHomeListArticlesReceived, feedList:response.data.articles});
-            // alert(isLoading);
-        }, (error) => {
-            dispatch({'type': types.kActionError, 'isLoading':false});
-        });
+        return Util.get(url,
+            (status, code, message, data, share) => {
+                let articles = [];
+                if (status) {
+                    articles = data.articles;
+                }
+                dispatch({type:types.kHomeListArticlesReceived, status:status, code:code, message:message, share:share, articles:articles});
+            },
+            (error) => {
+                dispatch({'type': types.kActionError, 'isLoading':false});
+            }
+        );
 
         //模拟网络延迟
         // function fetching() {

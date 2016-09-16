@@ -21,7 +21,7 @@ import {
     InteractionManager,
 } from 'react-native';
 import Header from '../components/Header';
-import RegisterPage from '../pages/RegisterPage';
+import RegisterContainer from '../containers/RegisterContainer';
 
 export default class LoginPage extends Component {
     constructor(props){
@@ -88,9 +88,10 @@ export default class LoginPage extends Component {
     _register() {
         InteractionManager.runAfterInteractions(() => {
             this.props.navigator.push({
-                name: 'RegisterPage',
-                component: RegisterPage,
+                name: 'RegisterContainer',
+                component: RegisterContainer,
                 passProps: {
+                    ...this.props,
                 }
             })
         });

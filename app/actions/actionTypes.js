@@ -27,10 +27,10 @@ export const kHomeListArticlesReceived          = 'kHomeListArticlesReceived';
 export const kUserRegister                      = 'kUserRegister';
 export const kUserRegisterReceived              = 'kUserRegisterReceived';
 export const kUserView                          = 'kUserView';
-export const kUserLoggedDoing                   = 'kUserLoggedDoing';
-export const kUserLoggedIn                      = 'kUserLoggedIn';
-export const kUserLoggedOut                     = 'kUserLoggedOut';
-export const kUserLoggedError                   = 'kUserLoggedError';
+export const kUserLogin                         = 'kUserLogin';
+export const kUserLoginReceived                 = 'kUserLoginReceived';
+export const kUserLogout                        = 'kUserLogout';
+export const kUserLogoutReceived                = 'kUserLogoutReceived';
 
 //商品、商品目录
 export const kCategoryListWithProduct           = 'kCategoryListWithProduct';
