@@ -185,14 +185,7 @@ const styles = StyleSheet.create({
         width:320,
         marginTop:50,
     },
-    formStyle: {
-        backgroundColor:'#F4F3F3',
-        marginTop: 30,
-        marginLeft: 10,
-        width: 300,
-        height: 120,
-        borderRadius: 8,
-    },
+
     formInput:{
         flexDirection:'row',
         height: 60,
@@ -203,8 +196,7 @@ const styles = StyleSheet.create({
         borderBottomColor:'#dbdada',
     },
     loginInput: {
-        height: 30,
-        borderColor: '#000',
+        height: 40,
         paddingLeft: 10,
         flex: 1,
         fontSize: 16,

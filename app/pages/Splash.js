@@ -36,7 +36,7 @@ class Splash extends Component {
                     name: 'AppMain'
                 });
             });
-        }, 1000);
+        }, 2000);
     }
 
     componentWillUnmount() {

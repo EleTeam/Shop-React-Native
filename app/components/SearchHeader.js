@@ -29,7 +29,7 @@ export default class SearchHeader extends React.Component {
                 >
                     <Image
                         style={styles.searchIcon}
-                        source={{uri: 'ic_input_search'}}
+                        source={require('../images/ic_search.jpg')}
                     />
                     <Text style={styles.searchPlaceholder}>请输入食物名称</Text>
                 </TouchableOpacity>
@@ -39,7 +39,7 @@ export default class SearchHeader extends React.Component {
                 >
                     <Image
                         style={styles.scanIcon}
-                        source={{uri: 'ic_homepage_scan'}}
+                        source={require('../images/ic_scan.jpg')}
                     />
                 </TouchableOpacity>
             </View>

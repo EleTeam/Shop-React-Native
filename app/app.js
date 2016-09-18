@@ -18,8 +18,6 @@ import {
 
 import Splash from './pages/Splash';
 
-export const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 20 : 20);
-
 class App extends Component {
     render() {
         return (
@@ -27,7 +25,7 @@ class App extends Component {
                 <StatusBar
                     barStyle='light-content'
                     backgroundColor='transparent'
-                    style={{height: STATUS_BAR_HEIGHT}}
+                    translucent={true}
                 />
                 <Navigator
                     initialRoute={{name: 'Splash', component: Splash}}
