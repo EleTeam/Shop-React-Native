@@ -22,12 +22,15 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {bannerList, homeListArticles} from '../actions/homeActions';
+import {appCartCookieIdFromSync} from '../actions/cartActions';
+import {userFromSync} from '../actions/userActions';
 import Common from '../common/constants';
 import SearchHeader from '../components/SearchHeader';
 import LoadMoreFooter from '../components/LoadMoreFooter';
 import ArticleContainer from '../containers/ArticleContainer';
 import Loading from '../components/Loading';
 import SearchContainer from '../containers/SearchContainer';
+import * as Storage from '../common/Storage';
 
 let page = 1;
 let canLoadMore = false;
@@ -55,6 +58,17 @@ export default class HomePage extends Component {
     }
 
     componentDidMount() {
+        //从缓存加载数据到对应的state
+        const {dispatch} = this.props;
+        Storage.getAppCartCookieId()
+        .then((app_cart_cookie_id)=>{
+            dispatch(appCartCookieIdFromSync(app_cart_cookie_id));
+        });
+        Storage.getUser()
+        .then((user)=>{
+            dispatch(userFromSync(user));
+        });
+
         // 交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
         InteractionManager.runAfterInteractions(() => {
             const {dispatch} = this.props;

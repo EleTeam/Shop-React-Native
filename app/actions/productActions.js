@@ -15,6 +15,7 @@
 'user strict';
 
 import * as types from './actionTypes';
+import {cartNumFromSync} from '../actions/cartActions';
 import * as urls from '../common/constants_url';
 import Util from '../common/utils';
 import { Alert } from 'react-native';
@@ -48,17 +49,24 @@ export let categoryListWithProduct = (isLoading) => {
  * @param isLoading
  * @returns {function(*)}
  */
-export let productView = (product_id) => {
+export let productView = (product_id, app_cart_cookie_id, access_token) => {
     let url = urls.kUrlProductView + product_id;
+    let data = {
+        app_cart_cookie_id: app_cart_cookie_id,
+        access_token: access_token,
+    };
     return (dispatch) => {
         dispatch({'type': types.kProductView, 'isLoading':true});
-        Util.get(url,
+        Util.post(url, data,
             (status, code, message, data, share) => {
                 let product = [];
+                let cart_num = 0;
                 if (status) {
                     product = data.product;
+                    cart_num = data.cart_num;
                 }
-                dispatch({type:types.kProductViewReceived, status:status, code:code, message:message, share:share, product:product});
+                dispatch({type:types.kProductViewReceived, status:status, code:code, message:message, share:share, product:product, cart_num:cart_num});
+                dispatch(cartNumFromSync(cart_num));
             },
             (error) => {
                 // Alert.alert(error.message);

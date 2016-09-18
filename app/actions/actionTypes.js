@@ -24,6 +24,7 @@ export const kHomeListArticles                  = 'kHomeListArticles';
 export const kHomeListArticlesReceived          = 'kHomeListArticlesReceived';
 
 // 用户
+export const kUserFromSync                      = 'kUserFromSync'; //同步加载用户数据, 一般从缓存加载
 export const kUserRegister                      = 'kUserRegister';
 export const kUserRegisterReceived              = 'kUserRegisterReceived';
 export const kUserView                          = 'kUserView';
@@ -43,8 +44,12 @@ export const kArticleView                       = 'kArticleView';
 export const kArticleViewReceived               = 'kArticleViewReceived';
 
 //购物车
+export const kAppCartCookieIdFromSync           = 'kAppCartCookieIdFromSync'; //同步加载数据, 一般从缓存加载
+export const kCartNumFromSync                   = 'kCartNumFromSync'; //同步加载数据, 一般从商品详情页
 export const kCartView                          = 'kCartView';
 export const kCartViewReceived                  = 'kCartViewReceived';
+export const kCartAdd                           = 'kCartAdd';
+export const kCartAddReceived                   = 'kCartAddReceived';
 
 
 

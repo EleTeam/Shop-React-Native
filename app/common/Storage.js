@@ -17,16 +17,16 @@ const kStorageAppCartCookieId = 'kStorageAppCartCookieId';
 
 export const getUser = () => {
     return AsyncStorage.getItem(kStorageUser)
-    .then((user) => {
-        if (user) {
-            return JSON.parse(user);
-        } else {
-            return {};
-        }
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .then((user) => {
+            if (user) {
+                return JSON.parse(user);
+            } else {
+                return {};
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
 };
 
 export const setUser = (user) => {
@@ -35,18 +35,18 @@ export const setUser = (user) => {
 
 export const getAppCartCookieId = () => {
     return AsyncStorage.getItem(kStorageAppCartCookieId)
-    .then((app_cart_cookie_id) => {
-        if (app_cart_cookie_id) {
-            return app_cart_cookie_id;
-        } else {
-            return '';
-        }
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .then((app_cart_cookie_id) => {
+            if (app_cart_cookie_id) {
+                return app_cart_cookie_id;
+            } else {
+                return '';
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
 };
 
 export const setAppCartCookieId = (app_cart_cookie_id) => {
-    AsyncStorage.setItem(kStorageAppCartCookieId, JSON.stringify(app_cart_cookie_id));
+    AsyncStorage.setItem(kStorageAppCartCookieId, app_cart_cookie_id);
 };

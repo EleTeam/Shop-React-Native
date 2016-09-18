@@ -10,47 +10,49 @@
 
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  Dimensions,
-  Image,
-  InteractionManager,
-  View
+    Dimensions,
+    Image,
+    InteractionManager,
+    View
 } from 'react-native';
-
 import AppMain from '../containers/AppMain';
+// import syncStorage from '../common/syncStorage';
 
 var {height, width} = Dimensions.get('window');
 
-class Splash extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    const {navigator} = this.props;
-     this.timer=setTimeout(() => {
-      InteractionManager.runAfterInteractions(() => {
-        navigator.resetTo({
-          component: AppMain,
-          name: 'AppMain'
-        });
-      });
-    }, 1000);
-  }
-  componentWillUnmount() {
-    this.timer && clearTimeout(this.timer);
-  }
- 
-  render() {
-    return (
-      <View style={{flex:1}}>
-      <Image
-        style={{flex:1,width:width,height:height}}
-        source={require('../images/ic_welcome.jpg')}
-        />
-      </View>
-    );
-  }
+class Splash extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        const {navigator} = this.props;
+        this.timer = setTimeout(() => {
+            InteractionManager.runAfterInteractions(() => {
+                navigator.resetTo({
+                    component: AppMain,
+                    name: 'AppMain'
+                });
+            });
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
+
+    render() {
+        return (
+            <View style={{flex: 1}}>
+                <Image
+                    style={{flex: 1, width: width, height: height}}
+                    source={require('../images/ic_welcome.jpg')}
+                />
+            </View>
+        );
+    }
 }
 
 export default Splash;

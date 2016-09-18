@@ -22,6 +22,11 @@ const initialState = {
 
 let userReducer = (state=initialState, action) => {
     switch (action.type) {
+        case types.kUserFromSync:
+            return {
+                ...state,
+                ...action,
+            };
         case types.kUserRegister:
             return {
                 ...state,

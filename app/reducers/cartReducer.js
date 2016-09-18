@@ -11,6 +11,8 @@
 import * as types from '../actions/actionTypes';
 const initialState = {
     cartItems: [],
+    cart_num: 0,
+    app_cart_cookie_id: '',
     isLoading: true,
 };
 
@@ -22,6 +24,16 @@ const initialState = {
  */
 let cartReducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.kAppCartCookieIdFromSync:
+            return {
+                ...state,
+                ...action,
+            };
+        case types.kCartNumFromSync:
+            return {
+                ...state,
+                ...action,
+            };
         case types.kCartView:
             return {
                 ...state,
@@ -30,7 +42,18 @@ let cartReducer = (state = initialState, action) => {
         case types.kCartViewReceived:
             return {
                 ...state,
-                cartItems: action.cartItems,
+                ...action,
+                isLoading: false,
+            };
+        case types.kCartAdd:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.kCartAddReceived:
+            return {
+                ...state,
+                ...action,
                 isLoading: false,
             };
         default:

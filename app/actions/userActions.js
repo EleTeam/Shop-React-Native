@@ -20,6 +20,12 @@ import * as urls from '../common/constants_url';
 import * as Storage from '../common/Storage';
 import { Alert } from 'react-native';
 
+export let userFromSync = (user) => {
+    return (dispatch) => {
+        dispatch({type: types.kUserFromSync, user: user});
+    }
+};
+
 export let userRegister = (mobile, password, code) => {
     let url = urls.kUrlUserRegister;
     let data = {
@@ -93,7 +99,7 @@ export let userLogout = () => {
                     Storage.setAppCartCookieId(app_cart_cookie_id);
                     Storage.setUser({});
                 }
-                dispatch({type:types.kUserLogoutReceived, status:status, code:code, message:message, share:share, app_cart_cookie_id:app_cart_cookie_id});
+                dispatch({type:types.kUserLogoutReceived, status:status, code:code, message:message, share:share, app_cart_cookie_id:app_cart_cookie_id, user:{}});
             },
             (error) => {
                 Alert.alert(error.message);

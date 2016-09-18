@@ -26,36 +26,43 @@ import commonStyles, {colors} from '../common/commonStyles';
 import * as Storage from '../common/Storage';
 import ImageButton from '../common/ImageButton';
 import TextButton from '../common/TextButton';
-import {userLogout} from '../actions/userActions';
+import {userLogout, userFromSync} from '../actions/userActions';
 import LoginContainer from '../containers/LoginContainer';
 // import LoginContainer from '../pages/LoginPage';
 
 export default class MyPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: {}
-        };
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         user: {}
+    //     };
+    // }
 
-    componentDidMount() {
-        InteractionManager.runAfterInteractions(() => {
-            Storage.getUser()
-            .then((user) => {
-                this.setState({user: user});
-            });
-        });
-    }
+    // componentDidMount() {
+    //     let user = {};
+    //     Storage.getUser()
+    //     .then((result) => {
+    //         // this.setState({user: user});
+    //         user = result;
+    //     });
+    //
+    //     InteractionManager.runAfterInteractions(() => {
+    //         const {dispatch} = this.props;
+    //         dispatch(userFromSync(user));
+    //     });
+    // }
 
-    componentWillUpdate() {
-        const {userReducer} = this.props;
-        if (userReducer.user.id) {
-            this.state.user = userReducer.user;
-        }
-    }
+    // componentWillUpdate() {
+    //     const {userReducer} = this.props;
+    //     if (userReducer.user.id) {
+    //         this.state.user = userReducer.user;
+    //     }
+    // }
 
     render() {
-        let user = this.state.user;
+        const {userReducer} = this.props;
+        const user = userReducer.user;
+
         return (
             <View style={styles.container}>
                 <View style={styles.headerWrap}>
@@ -74,7 +81,7 @@ export default class MyPage extends Component {
                                 <Image style={styles.headIcon} source={require('../images/img_default_head.png')}/>
                             }
                             {user.id ?
-                                <Text style={styles.login}>{this.state.user.mobile}</Text> :
+                                <Text style={styles.login}>{user.mobile}</Text> :
                                 <Text style={styles.login}>点击登录</Text>
                             }
                         </TouchableOpacity>
@@ -325,7 +332,9 @@ export default class MyPage extends Component {
     }
 
     _onPressHead() {
-        let user = this.state.user;
+        const {userReducer} = this.props;
+        const user = userReducer.user;
+
         if(!user.id) {
             InteractionManager.runAfterInteractions(() => {
                 this.props.navigator.push({
@@ -343,7 +352,6 @@ export default class MyPage extends Component {
         InteractionManager.runAfterInteractions(() => {
             const {dispatch} = this.props;
             dispatch(userLogout());
-            this.setState({user:{}});
         });
     }
 }
@@ -374,6 +382,7 @@ const styles = StyleSheet.create({
     headIcon: {
         height: 70,
         width: 70,
+        borderRadius: 35,
     },
     loginWrap: {
         justifyContent: 'center',
@@ -385,5 +394,6 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         padding: 5,
         marginTop: 10,
+        borderRadius: 3,
     },
 });

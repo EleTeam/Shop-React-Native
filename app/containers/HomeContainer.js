@@ -21,8 +21,5 @@ class HomeContainer extends Component {
 }
 
 export default connect((state) => {
-    const { homeReducer } = state;
-    return {
-        homeReducer
-    }
+    return { homeReducer, cartReducer, userReducer } = state;
 })(HomeContainer);

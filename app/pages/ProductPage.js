@@ -29,13 +29,17 @@ import Header from '../components/Header';
 import Common from '../common/constants';
 import CartContainer from '../containers/CartContainer';
 import {productView} from '../actions/productActions';
+import {cartAdd} from '../actions/cartActions';
+import * as Storage from '../common/Storage';
 
-export default class ProductPage extends React.Component {
+export default class ProductPage extends Component {
     componentDidMount() {
         //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
         InteractionManager.runAfterInteractions(() => {
-            const {dispatch, product_id} = this.props;
-            dispatch(productView(product_id));
+            const {dispatch, product_id, cartReducer, userReducer} = this.props;
+            let app_cart_cookie_id = cartReducer.app_cart_cookie_id;
+            let access_token = userReducer.user.access_token;
+            dispatch(productView(product_id, app_cart_cookie_id, access_token));
         });
     }
 
@@ -98,14 +102,17 @@ export default class ProductPage extends React.Component {
                         </ScrollView>
                     }
                 </View>
-                <ToolBar style={{position: 'absolute', bottom: 0}} {...this.props}/>
+                <ToolBar {...this.props} />
             </View>
         )
     }
 }
 
-class ToolBar extends React.Component {
+class ToolBar extends Component {
     render() {
+        const {cartReducer} = this.props;
+        let cart_num = cartReducer.cart_num;
+
         return (
             <View style={styles.toolBarWrap}>
                 <TouchableOpacity style={styles.toolBarItem}>
@@ -122,14 +129,15 @@ class ToolBar extends React.Component {
                         size={15}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.toolBarItem} onPress={this._onPressCart.bind(this)}>
+                <TouchableOpacity style={styles.toolBarItem} onPress={this._goToCartPage.bind(this)}>
                     <Icon
                         name="shopping-cart"
                         color="gray"
                         size={18}
                     />
+                    <Text style={styles.cartNum}>{cart_num}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.toolBarItem}>
+                <TouchableOpacity style={styles.toolBarItem} onPress={this._addToCart.bind(this)}>
                     <View style={styles.addToCartWrap}>
                         <Text style={styles.addToCart}>加入购物车</Text>
                     </View>
@@ -138,7 +146,23 @@ class ToolBar extends React.Component {
         )
     }
 
-    _onPressCart() {
+    _addToCart() {
+        const {dispatch, productReducer, cartReducer, userReducer} = this.props;
+        const product_id = productReducer.product.id;
+        let app_cart_cookie_id = cartReducer.app_cart_cookie_id;
+        let access_token = userReducer.user.access_token;
+        let count = 1;
+        Storage.getAppCartCookieId()
+        .then((result)=>{
+            app_cart_cookie_id = result;
+        });
+
+        InteractionManager.runAfterInteractions(() => {
+            dispatch(cartAdd(product_id, count, app_cart_cookie_id, access_token));
+        });
+    }
+
+    _goToCartPage() {
         InteractionManager.runAfterInteractions(() => {
             this.props.navigator.push({
                 name: 'CartContainer',
@@ -251,5 +275,12 @@ const styles = StyleSheet.create({
         flex: 1,
         color: '#fff',
         fontSize: 16,
+    },
+    cartNum: {
+        color: 'red',
+        fontSize: 11,
+        marginTop: -18,
+        marginLeft: -10,
+        backgroundColor: 'transparent',
     },
 });
