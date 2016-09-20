@@ -31,18 +31,24 @@ export let cartNumFromSync = (cart_num) => {
     }
 };
 
-export let cartView = ()=> {
+export let cartView = (app_cart_cookie_id, access_token)=> {
     let url = urls.kUrlCart;
+    let data = {
+        app_cart_cookie_id: app_cart_cookie_id,
+        access_token: access_token
+    };
 
     return dispatch => {
         dispatch({type: types.kCartView});
-        return Util.get(url,
+        return Util.post(url, data,
             (status, code, message, data, share) => {
+                let app_cart_cookie_id = '';
                 let cartItems = [];
                 if (status) {
                     cartItems = data.cartItems;
+                    app_cart_cookie_id = data.app_cart_cookie_id;
                 }
-                dispatch({type:types.kCartViewReceived, status:status, code:code, message:message, cartItems:cartItems, share:share});
+                dispatch({type:types.kCartViewReceived, status:status, code:code, message:message, share:share, cartItems:cartItems, app_cart_cookie_id:app_cart_cookie_id});
             },
             (error) => {
                 // console.log('Fetch banner list error: ' + error);

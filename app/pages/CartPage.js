@@ -47,28 +47,19 @@ export default class CartPage extends Component {
     }
 
     componentDidMount() {
-        let user = {}
-        let s = Storage.getUser()
-        .then((user)=>{
-            console.log('2');
-            console.log(user);
-            user=user;
-        });
-
-        console.log('1');
-        console.log(s);
         // 交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
         InteractionManager.runAfterInteractions(() => {
-        console.log('3');
-            console.log(user)
-            const {dispatch} = this.props;
-            dispatch(cartView());
+            const {dispatch, cartReducer, userReducer} = this.props;
+            let app_cart_cookie_id = cartReducer.app_cart_cookie_id;
+            let access_token = userReducer.user.access_token;
+            dispatch(cartView(app_cart_cookie_id, access_token));
         });
     }
 
     render() {
         const {cartReducer, isShowNavigator} = this.props;
         let cartItems = cartReducer.cartItems;
+        console.log(cartItems.length);
 
         return (
             <View style={styles.container}>
