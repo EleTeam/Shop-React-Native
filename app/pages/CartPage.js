@@ -15,7 +15,6 @@ import {
     Text,
     View,
     ListView,
-    RefreshControl,
     Image,
     InteractionManager,
     Alert
@@ -25,25 +24,16 @@ import Common from '../common/constants';
 import Header from '../components/Header';
 import ProductContainer from '../containers/ProductContainer';
 import Loading from '../components/Loading';
-import * as Storage from '../common/Storage';
-
-let isLoading = true;
 
 export default class CartPage extends Component {
     constructor(props) {
         super(props);
+        this._renderRow = this._renderRow.bind(this);
         this.state = {
             dataSource: new ListView.DataSource({
-                getRowData: (data, sectionID, rowID) => {
-                    return data[sectionID][rowID];
-                },
-                getSectionHeaderData: (data, sectionID) => {
-                    return data[sectionID];
-                },
                 rowHasChanged: (row1, row2) => row1 !== row2,
-                sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
-            })
-        }
+            }),
+        };
     }
 
     componentDidMount() {
@@ -56,10 +46,19 @@ export default class CartPage extends Component {
         });
     }
 
+    // componentWillReceiveProps(nextProps) {
+    //     // console.log(nextProps);
+    //     // console.log(this.props);
+    //     const {cartReducer, isShowNavigator} = nextProps;
+    //     this.state.isShowNavigator = isShowNavigator;
+    //     this.state.cartItems = cartReducer.cartItems;
+    //     // console.log(cartItems.length);
+    // }
+
     render() {
         const {cartReducer, isShowNavigator} = this.props;
         let cartItems = cartReducer.cartItems;
-        console.log(cartItems.length);
+        let isLoading = cartReducer.isLoading;
 
         return (
             <View style={styles.container}>
@@ -73,11 +72,11 @@ export default class CartPage extends Component {
                         <Text style={styles.header}>购物车</Text>
                     </View>
                 }
-                {cartReducer.isLoading ?
+                {isLoading ?
                     <Loading /> :
                     <ListView
                         dataSource={this.state.dataSource.cloneWithRows(cartItems)}
-                        renderRow={this._renderRow.bind(this)}
+                        renderRow={this._renderRow}
                         enableEmptySections={true}
                         style={{height: Common.window.height - 64}}
                     />
@@ -88,6 +87,7 @@ export default class CartPage extends Component {
 
     _renderRow(cartItem, sectionID, rowID) {
         let product = cartItem.product;
+        console.log(product.id);
         return (
             <TouchableOpacity onPress={this._onPressProduct.bind(this, product.id)}>
                 <View style={styles.productItem}>

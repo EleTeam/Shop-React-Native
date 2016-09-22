@@ -21,5 +21,6 @@ class ProductContainer extends Component {
 }
 
 export default connect((state) => {
-    return { productReducer, userReducer, cartReducer } = state;
+    const { productReducer, userReducer, cartReducer } = state;
+    return { productReducer, userReducer, cartReducer };
 })(ProductContainer);

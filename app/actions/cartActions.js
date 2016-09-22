@@ -80,6 +80,7 @@ export let cartAdd = (product_id, count, app_cart_cookie_id, access_token)=> {
                 Storage.setAppCartCookieId(app_cart_cookie_id);
                 dispatch({type:types.kCartAddReceived, status:status, code:code, message:message, share:share,
                     cart_num:cart_num, app_cart_cookie_id});
+                dispatch(cartView(app_cart_cookie_id, access_token));
             },
             (error) => {
                 // console.log('Fetch banner list error: ' + error);

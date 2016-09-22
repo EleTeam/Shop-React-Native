@@ -82,7 +82,7 @@ export default class CategoryPage extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.headerWrap}>
-                    <Text style={styles.header}>购物车</Text>
+                    <Text style={styles.header}>商品分类</Text>
                 </View>
                 {isLoading ?
                     <Loading /> :
