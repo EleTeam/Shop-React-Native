@@ -15,6 +15,7 @@
 'user strict';
 
 import * as types from './actionTypes';
+import {cartView} from './cartActions';
 import Util from '../common/utils';
 import * as urls from '../common/constants_url';
 import * as Storage from '../common/Storage';
@@ -38,11 +39,15 @@ export let userRegister = (mobile, password, code) => {
         Util.post(url, data,
             (status, code, message, data, share) => {
                 let user = {};
+                let app_cart_cookie_id = '';
                 if (status) {
                     user = data.user;
+                    app_cart_cookie_id = data.app_cart_cookie_id;
+                    Storage.setAppCartCookieId(app_cart_cookie_id);
                     Storage.setUser(user);
                 }
                 dispatch({type:types.kUserRegisterReceived, status:status, code:code, message:message, user:user, share:share});
+                dispatch(cartView(app_cart_cookie_id, user.access_token));
             },
             (error) => {
                 dispatch({'type': types.kActionError});
@@ -79,6 +84,7 @@ export let userLogin = (mobile, password) => {
                     Storage.setUser(user);
                 }
                 dispatch({type:types.kUserLoginReceived, status:status, code:code, message:message, share:share, user:user, app_cart_cookie_id:app_cart_cookie_id});
+                dispatch(cartView(app_cart_cookie_id, user.access_token));
             },
             (error) => {
                 Alert.alert(error.message);
@@ -100,6 +106,7 @@ export let userLogout = () => {
                     Storage.setUser({});
                 }
                 dispatch({type:types.kUserLogoutReceived, status:status, code:code, message:message, share:share, app_cart_cookie_id:app_cart_cookie_id, user:{}});
+                dispatch(cartView(app_cart_cookie_id, ''));
             },
             (error) => {
                 Alert.alert(error.message);

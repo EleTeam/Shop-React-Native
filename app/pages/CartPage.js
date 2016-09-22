@@ -59,6 +59,7 @@ export default class CartPage extends Component {
         const {cartReducer, isShowNavigator} = this.props;
         let cartItems = cartReducer.cartItems;
         let isLoading = cartReducer.isLoading;
+        let cart_num = cartReducer.cart_num;
 
         return (
             <View style={styles.container}>
@@ -74,21 +75,34 @@ export default class CartPage extends Component {
                 }
                 {isLoading ?
                     <Loading /> :
-                    <ListView
-                        dataSource={this.state.dataSource.cloneWithRows(cartItems)}
-                        renderRow={this._renderRow}
-                        enableEmptySections={true}
-                        style={{height: Common.window.height - 64}}
-                    />
+                    <View style={{flex:1,flexDirection:'column'}}>
+                        <ListView
+                            style={styles.productListWrap}
+                            dataSource={this.state.dataSource.cloneWithRows(cartItems)}
+                            renderRow={this._renderRow}
+                            enableEmptySections={true}
+                        />
+                        <View style={styles.toolBarWrap}>
+                            <Text style={styles.cartNum}>总{cart_num}种商品</Text>
+                            <TouchableOpacity style={styles.toolBarItem} onPress={this._preorderCreateAndView.bind(this)}>
+                                <View style={styles.addToCartWrap}>
+                                    <Text style={styles.addToCart}>去结算</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 }
             </View>
         )
     }
 
     _renderRow(cartItem, sectionID, rowID) {
+        const {isShowNavigator} = this.props;
         let product = cartItem.product;
         console.log(product.id);
         return (
+            <View>
+        {!isShowNavigator ?
             <TouchableOpacity onPress={this._onPressProduct.bind(this, product.id)}>
                 <View style={styles.productItem}>
                     <Image
@@ -104,7 +118,23 @@ export default class CartPage extends Component {
                         <Text>立减 ￥{product.price - product.featured_price}</Text>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableOpacity> :
+                <View style={styles.productItem}>
+                    <Image
+                        style={styles.productImage}
+                        source={{uri: product.image_small}}
+                    />
+                    <View style={styles.productRight}>
+                        <Text>{product.name}</Text>
+                        <View style={{flexDirection:'row'}}>
+                            <Text>￥{product.price}</Text>
+                            <Text>￥{product.featured_price}</Text>
+                        </View>
+                        <Text>立减 ￥{product.price - product.featured_price}</Text>
+                    </View>
+                </View>
+            }
+            </View>
         );
     }
 
@@ -117,6 +147,10 @@ export default class CartPage extends Component {
                 passProps: {...this.props, product_id:product_id}
             })
         });
+    }
+
+    _preorderCreateAndView() {
+        alert('正在开发中。。。')
     }
 }
 
@@ -136,6 +170,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
+    productListWrap: {
+        height: Common.window.height - 64 - 44 - 40,
+    },
     productItem: {
         height: 80,
         flexDirection:'row',
@@ -158,5 +195,38 @@ const styles = StyleSheet.create({
     productFeaturedPrice: {
         fontSize: 14,
         color: '#ddd',
+    },
+
+    // 底部栏
+    toolBarWrap: {
+        height: 440,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderTopColor: '#ccc',
+        borderTopWidth: 0.5,
+    },
+    toolBarItem: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addToCartWrap: {
+        flex: 1,
+        backgroundColor: '#fd6161',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addToCart: {
+        flex: 1,
+        color: '#fff',
+        fontSize: 16,
+    },
+    cartNum: {
+        color: 'red',
+        fontSize: 11,
+        marginTop: -18,
+        marginLeft: -10,
+        backgroundColor: 'transparent',
     },
 });

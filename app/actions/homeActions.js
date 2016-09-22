@@ -34,11 +34,9 @@ export let bannerList = ()=> {
     }
 };
 
-//异步调用服务端
 export let homeListArticles = (page, isLoadMore, isRefreshing, isLoading)=> {
     let url = urls.kUrlHomeListArticles + '?page=' + page;
     return dispatch => {
-        // 请求轮播数据
         dispatch({
             type: types.kHomeListArticles,
             isLoadMore: isLoadMore,
