@@ -20,6 +20,7 @@ import cartReducer from './cartReducer';
 import preorderReducer from './preorderReducer';
 import myReducer from './myReducer';
 import userReducer from './userReducer';
+import addressReducer from './addressReducer';
 
 export default rootReducer = combineReducers({
     homeReducer,
@@ -30,4 +31,5 @@ export default rootReducer = combineReducers({
     preorderReducer,
     myReducer,
     userReducer,
+    addressReducer
 })

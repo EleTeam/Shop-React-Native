@@ -11,7 +11,7 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-    preorder: [],
+    preorder: {},
     address: {},
     isLoading: true,
     isPreorderCreating: false, //预订单是否在创建中

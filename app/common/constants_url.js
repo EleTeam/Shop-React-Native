@@ -35,3 +35,12 @@ export const kUrlCartAdd                    = kUrlHost + '/cart/add';
 export const kUrlUserRegister               = kUrlHost + '/user/register';
 export const kUrlUserLogin                  = kUrlHost + '/user/login';
 export const kUrlUserLogout                 = kUrlHost + '/user/logout';
+
+//预订单
+export const kUrlPreorderCreate             = kUrlHost + '/preorder/create';
+export const kUrlPreorderView               = kUrlHost + '/preorder/view?id=';
+
+//地址
+export const kUrlAddressList                = kUrlHost + '/address/index';
+export const kUrlAddressCreate              = kUrlHost + '/address/create';
+export const kUrlAddressDelete              = kUrlHost + '/address/delete';

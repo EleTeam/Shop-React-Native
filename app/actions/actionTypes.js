@@ -57,3 +57,14 @@ export const kPreorderCreateReceived            = 'kPreorderCreateReceived';
 export const kPreorderIsTurnedToViewFromSync    = 'kPreorderIsTurnedToViewFromSync';
 export const kPreorderView                      = 'kPreorderView';
 export const kPreorderViewReceived              = 'kPreorderViewReceived';
+
+//地址
+export const kAddressList                       = 'kAddressList';
+export const kAddressListReceived               = 'kAddressListReceived';
+export const kAddressCreate                     = 'kAddressCreate';
+export const kAddressCreateReceived             = 'kAddressCreateReceived';
+export const kAddressDelete                     = 'kAddressDelete';
+export const kAddressDeleteReceived             = 'kAddressDeleteReceived';
+
+
+

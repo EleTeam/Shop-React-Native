@@ -24,11 +24,11 @@ import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Common from '../common/constants';
 import {preorderView} from '../actions/preorderActions';
+import AddressContainer from '../containers/AddressContainer';
 
 export default class PreorderPage extends Component {
     constructor(props) {
         super(props);
-        this._renderRow = this._renderRow.bind(this);
         this.state = {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
@@ -86,7 +86,7 @@ export default class PreorderPage extends Component {
                         <ListView
                             style={styles.productListWrap}
                             dataSource={this.state.dataSource.cloneWithRowsAndSections(sourceData, sectionIds, rowIds)}
-                            renderRow={this._renderRow}
+                            renderRow={this._renderRow.bind(this)}
                             enableEmptySections={true}
                         />
                         <View style={styles.toolBarWrap}>
@@ -103,22 +103,16 @@ export default class PreorderPage extends Component {
         )
     }
 
-    // _renderSectionHeader(sectionHeader) {
-    //     return (
-    //         <View>
-    //             <Text style={{fontSize: 13, color: 'gray'}}>{sectionHeader}</Text>
-    //         </View>
-    //     )
-    // }
-
     _renderRow(data, sectionId, rowId) {
         //选择收货地址
         if(sectionId == 'address'){
             let address = data;
             return (
-                <View>
-                    <Text>请选择收货地址</Text>
-                </View>
+                <TouchableOpacity onPress={this._gotoAddressList.bind(this)}>
+                    <View>
+                        <Text>请选择收货地址>></Text>
+                    </View>
+                </TouchableOpacity>
             )
         }
         //商品列表
@@ -140,6 +134,15 @@ export default class PreorderPage extends Component {
     }
 
     _goToPayOrder() {
+    }
+
+    _gotoAddressList(){
+        InteractionManager.runAfterInteractions(() => {
+            this.props.navigator.push({
+                name: 'AddressContainer',
+                component: AddressContainer
+            })
+        });
     }
 }
 
