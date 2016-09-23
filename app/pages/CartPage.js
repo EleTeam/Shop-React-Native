@@ -17,12 +17,14 @@ import {
     ListView,
     Image,
     InteractionManager,
-    Alert
 } from 'react-native';
 import {cartView} from '../actions/cartActions';
+import {preorderCreate, preorderIsTurnedToViewFromSync} from '../actions/preorderActions';
 import Common from '../common/constants';
 import Header from '../components/Header';
 import ProductContainer from '../containers/ProductContainer';
+import LoginContainer from '../containers/LoginContainer';
+import PreorderContainer from '../containers/PreorderContainer';
 import Loading from '../components/Loading';
 
 export default class CartPage extends Component {
@@ -46,20 +48,25 @@ export default class CartPage extends Component {
         });
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     // console.log(nextProps);
-    //     // console.log(this.props);
-    //     const {cartReducer, isShowNavigator} = nextProps;
-    //     this.state.isShowNavigator = isShowNavigator;
-    //     this.state.cartItems = cartReducer.cartItems;
-    //     // console.log(cartItems.length);
-    // }
+    componentWillReceiveProps(nextProps) {
+        const {dispatch, preorderReducer} = nextProps;
+        if(preorderReducer.isTurnToPreorderView && preorderReducer.preorder.id) {
+            dispatch(preorderIsTurnedToViewFromSync());
+            InteractionManager.runAfterInteractions(() => {
+                this.props.navigator.push({
+                    name: 'PreorderContainer',
+                    component: PreorderContainer
+                })
+            });
+        }
+    }
 
     render() {
-        const {cartReducer, isShowNavigator} = this.props;
+        const {cartReducer, userReducer, isShowNavigator} = this.props;
         let cartItems = cartReducer.cartItems;
         let isLoading = cartReducer.isLoading;
         let cart_num = cartReducer.cart_num;
+        let user = userReducer.user;
 
         return (
             <View style={styles.container}>
@@ -84,7 +91,7 @@ export default class CartPage extends Component {
                         />
                         <View style={styles.toolBarWrap}>
                             <Text style={styles.cartNum}>总{cart_num}种商品</Text>
-                            <TouchableOpacity style={styles.toolBarItem} onPress={this._preorderCreateAndView.bind(this)}>
+                            <TouchableOpacity style={styles.toolBarItem} onPress={this._preorderCreateAndView.bind(this, user)}>
                                 <View style={styles.addToCartWrap}>
                                     <Text style={styles.addToCart}>去结算</Text>
                                 </View>
@@ -99,41 +106,40 @@ export default class CartPage extends Component {
     _renderRow(cartItem, sectionID, rowID) {
         const {isShowNavigator} = this.props;
         let product = cartItem.product;
-        console.log(product.id);
         return (
             <View>
-        {!isShowNavigator ?
-            <TouchableOpacity onPress={this._onPressProduct.bind(this, product.id)}>
-                <View style={styles.productItem}>
-                    <Image
-                        style={styles.productImage}
-                        source={{uri: product.image_small}}
-                    />
-                    <View style={styles.productRight}>
-                        <Text>{product.name}</Text>
-                        <View style={{flexDirection:'row'}}>
-                            <Text>￥{product.price}</Text>
-                            <Text>￥{product.featured_price}</Text>
+                {!isShowNavigator ?
+                    <TouchableOpacity onPress={this._onPressProduct.bind(this, product.id)}>
+                        <View style={styles.productItem}>
+                            <Image
+                                style={styles.productImage}
+                                source={{uri: product.image_small}}
+                            />
+                            <View style={styles.productRight}>
+                                <Text>{product.name}</Text>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text>￥{product.price}</Text>
+                                    <Text>￥{product.featured_price}</Text>
+                                </View>
+                                <Text>立减 ￥{product.price - product.featured_price}</Text>
+                            </View>
                         </View>
-                        <Text>立减 ￥{product.price - product.featured_price}</Text>
-                    </View>
-                </View>
-            </TouchableOpacity> :
-                <View style={styles.productItem}>
-                    <Image
-                        style={styles.productImage}
-                        source={{uri: product.image_small}}
-                    />
-                    <View style={styles.productRight}>
-                        <Text>{product.name}</Text>
-                        <View style={{flexDirection:'row'}}>
-                            <Text>￥{product.price}</Text>
-                            <Text>￥{product.featured_price}</Text>
+                    </TouchableOpacity> :
+                    <View style={styles.productItem}>
+                        <Image
+                            style={styles.productImage}
+                            source={{uri: product.image_small}}
+                        />
+                        <View style={styles.productRight}>
+                            <Text>{product.name}</Text>
+                            <View style={{flexDirection:'row'}}>
+                                <Text>￥{product.price}</Text>
+                                <Text>￥{product.featured_price}</Text>
+                            </View>
+                            <Text>立减 ￥{product.price - product.featured_price}</Text>
                         </View>
-                        <Text>立减 ￥{product.price - product.featured_price}</Text>
                     </View>
-                </View>
-            }
+                }
             </View>
         );
     }
@@ -149,8 +155,22 @@ export default class CartPage extends Component {
         });
     }
 
-    _preorderCreateAndView() {
-        alert('正在开发中。。。')
+    _preorderCreateAndView(user) {
+        if(user.id) {
+            const {dispatch, cartReducer} = this.props;
+            if(!cartReducer.cartItems.length){
+                alert('请先选择商品');
+                return;
+            }
+            dispatch(preorderCreate(user.access_token));
+        }else{ //去登录
+            InteractionManager.runAfterInteractions(() => {
+                this.props.navigator.push({
+                    name: 'LoginContainer',
+                    component: LoginContainer
+                })
+            });
+        }
     }
 }
 

@@ -2,7 +2,7 @@
  * ShopReactNative
  *
  * @author Tony Wong
- * @date 2016-09-11
+ * @date 2016-09-23
  * @email 908601756@qq.com
  * @copyright Copyright © 2016 EleTeam
  * @license The MIT License (MIT)
@@ -10,16 +10,16 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import CartPage from '../pages/CartPage';
+import PreorderPage from '../pages/PreorderPage';
 
-class CartContainer extends Component {
+class PreorderContainer extends Component {
     render() {
         return (
-            <CartPage {...this.props} />
+            <PreorderPage {...this.props} />
         )
     }
 }
 
 export default connect((state) => {
-    return { cartReducer, userReducer, preorderReducer } = state;
-})(CartContainer);
+    return { preorderReducer, userReducer} = state;
+})(PreorderContainer);

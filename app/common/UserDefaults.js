@@ -14,7 +14,7 @@ let UserDefaults = {
     setObject: (key, value) => {
         const jsonValue = JSON.stringify(value);
         return AsyncStorage.setItem(key, jsonValue, (error) => {
-            console.log(key + ' setOrRemoveObject error: ' + error);
+            // console.log(key + ' setOrRemoveObject error: ' + error);
         });
     },
 
@@ -23,7 +23,7 @@ let UserDefaults = {
             .then((data, error) => {
                 if (data) return JSON.parse(data);
                 
-                console.log(key + ' cachedObject error: ' + error);
+                // console.log(key + ' cachedObject error: ' + error);
                 return null;
             })
     },

@@ -25,7 +25,7 @@ export const getUser = () => {
             }
         })
         .catch(error => {
-            console.log(error);
+            // console.log(error);
         });
 };
 
@@ -43,7 +43,7 @@ export const getAppCartCookieId = () => {
             }
         })
         .catch(error => {
-            console.log(error);
+            // console.log(error);
         });
 };
 
