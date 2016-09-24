@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     header: {
         color: '#fff',
         paddingTop: 22,
-        fontSize: 17,
+        fontSize: 16,
     },
 
     productListWrap: {

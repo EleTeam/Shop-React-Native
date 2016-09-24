@@ -12,6 +12,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import HomeContainer from './HomeContainer';
 import CategoryContainer from './CategoryContainer';
 import CartContainer from './CartContainer';
+import FunContainer from './FunContainer';
 import MyContainer from './MyContainer';
 
 class AppMain extends Component {
@@ -54,6 +55,16 @@ class AppMain extends Component {
 			    renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_cart_press.png")} style={styles.iconStyle}/>}
 			    onPress={() => this.setState({ selectedTab: 'cart' })}>
 			    <CartContainer {...this.props}/>
+			  </TabNavigator.Item>
+			  <TabNavigator.Item
+				  title="好玩"
+				  selected={this.state.selectedTab === 'fun'}
+				  selectedTitleStyle={styles.selectedTextStyle}
+				  titleStyle={styles.textStyle}
+				  renderIcon={() => <Image source={require("../images/tab/ic_tab_fun.png")} style={styles.iconStyle}/>}
+				  renderSelectedIcon={() => <Image source={require("../images/tab/ic_tab_fun_press.png")} style={styles.iconStyle}/>}
+				  onPress={() => this.setState({ selectedTab: 'fun' })}>
+				  <FunContainer {...this.props}/>
 			  </TabNavigator.Item>
 			  <TabNavigator.Item
 			  	title="我的"

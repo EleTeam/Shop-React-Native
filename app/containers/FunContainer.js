@@ -2,7 +2,7 @@
  * ShopReactNative
  *
  * @author Tony Wong
- * @date 2016-08-13
+ * @date 2016-09-24
  * @email 908601756@qq.com
  * @copyright Copyright © 2016 EleTeam
  * @license The MIT License (MIT)
@@ -10,16 +10,16 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import MyPage from '../pages/MyPage';
+import FunPage from '../pages/FunPage';
 
-class MyContainer extends Component {
+class FunContainer extends Component {
     render() {
         return (
-            <MyPage {...this.props} />
+            <FunPage {...this.props} />
         )
     }
 }
 
 export default connect((state) => {
     return { userReducer } = state;
-})(MyContainer);
+})(FunContainer);

@@ -40,9 +40,6 @@ let isLoading = true;
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-
-        this._renderRow = this._renderRow.bind(this);
-
         this.state = {
             dataSource: new ListView.DataSource({
                 getRowData: (data, sectionID, rowID) => {
@@ -82,7 +79,6 @@ export default class HomePage extends Component {
         let banners = homeReducer.banners;
         let articles = homeReducer.articles;
         let sourceData = {'banner': [banners], 'feed': articles};
-        // alert(homeReducer.isLoading);
 
         let sectionIDs = ['banner', 'feed'];
         let rowIDs = [[0]];
@@ -113,7 +109,7 @@ export default class HomePage extends Component {
                     <Loading /> :
                     <ListView
                         dataSource={this.state.dataSource.cloneWithRowsAndSections(sourceData, sectionIDs, rowIDs)}
-                        renderRow={this._renderRow}
+                        renderRow={this._renderRow.bind(this)}
                         initialListSize={1}
                         enableEmptySections={true}
                         onScroll={this._onScroll}

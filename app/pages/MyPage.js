@@ -360,7 +360,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-
     headerWrap: {
         alignItems: 'center',
         height: 44,
@@ -369,7 +368,7 @@ const styles = StyleSheet.create({
     header: {
         color: '#fff',
         paddingTop: 22,
-        fontSize: 17,
+        fontSize: 16,
     },
 
     myBgImage: {
