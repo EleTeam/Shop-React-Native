@@ -16,6 +16,12 @@ import * as urls from '../common/constants_url';
  * 地址actions
  */
 
+// export let addressIsToasting = (isToasting) => {
+//     return (dispatch) => {
+//         dispatch({type:types.kAddressIsToasting, isToasting:isToasting});
+//     }
+// };
+
 export let addressList = (access_token)=> {
     let url = urls.kUrlAddressList;
     let data = {
@@ -29,9 +35,12 @@ export let addressList = (access_token)=> {
                 let addresses = [];
                 if (status) {
                     addresses = data.addresses;
+                } else {
+                    dispatch({type:types.kAddressIsToasting, isToasting:true});
                 }
                 dispatch({type:types.kAddressListReceived, status:status, code:code, message:message, share:share,
                     addresses:addresses});
+                dispatch({type:types.kAddressIsToasting, isToasting:false});
             },
             (error) => {
                 // console.log('Fetch banner list error: ' + error);
@@ -41,10 +50,12 @@ export let addressList = (access_token)=> {
     }
 };
 
-export let addressCreate = (access_token, area_id, detail)=> {
+export let addressCreate = (access_token, fullname, telephone, area_id, detail)=> {
     let url = urls.kUrlAddressCreate;
     let data = {
         access_token: access_token,
+        fullname: fullname,
+        telephone: telephone,
         area_id: area_id,
         detail: detail
     };
@@ -58,9 +69,12 @@ export let addressCreate = (access_token, area_id, detail)=> {
                 if (status) {
                     address = data.address;
                     addresses = data.addresses;
+                } else {
+                    dispatch({type:types.kAddressIsToasting, isToasting:true});
                 }
                 dispatch({type:types.kAddressCreateReceived, status:status, code:code, message:message, share:share,
                     address:address, addresses:addresses});
+                dispatch({type:types.kAddressIsToasting, isToasting:false});
             },
             (error) => {
                 // console.log('Fetch banner list error: ' + error);

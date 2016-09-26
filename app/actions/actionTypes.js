@@ -59,6 +59,7 @@ export const kPreorderView                      = 'kPreorderView';
 export const kPreorderViewReceived              = 'kPreorderViewReceived';
 
 //地址
+export const kAddressIsToasting                 = 'kAddressIsToasting';
 export const kAddressList                       = 'kAddressList';
 export const kAddressListReceived               = 'kAddressListReceived';
 export const kAddressCreate                     = 'kAddressCreate';

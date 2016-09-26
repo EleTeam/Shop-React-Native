@@ -13,11 +13,17 @@ import * as types from '../actions/actionTypes';
 const initialState = {
     addresses: [],
     address: {},
-    isLoading: true
+    isLoading: true,
+    isToasting: false,
 };
 
 let addressReducer = (state=initialState, action) => {
     switch (action.type) {
+        case types.kAddressIsToasting:
+            return {
+                ...state,
+                isToasting: action.isToasting,
+            };
         case types.kAddressList:
             return {
                 ...state,

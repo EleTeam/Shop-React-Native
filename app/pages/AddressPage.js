@@ -24,6 +24,7 @@ import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Common from '../common/constants';
 import {addressList, addressDelete} from '../actions/addressActions';
+import AddressCreateContainer from '../containers/AddressCreateContainer';
 
 export default class AddressPage extends Component {
     constructor(props) {
@@ -65,6 +66,13 @@ export default class AddressPage extends Component {
                             renderRow={this._renderRow.bind(this)}
                             enableEmptySections={true}
                         />
+                        <View style={styles.toolBarWrap}>
+                            <TouchableOpacity style={styles.toolBarItem} onPress={this._gotoAddressCreatePage.bind(this)}>
+                                <View style={styles.addToCartWrap}>
+                                    <Text style={styles.addToCart}>+ 添加收货地址</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 }
             </View>
@@ -80,6 +88,15 @@ export default class AddressPage extends Component {
             </View>
         );
     }
+
+    _gotoAddressCreatePage(){
+        InteractionManager.runAfterInteractions(() => {
+            this.props.navigator.push({
+                name: 'AddressCreateContainer',
+                component: AddressCreateContainer
+            })
+        });
+    };
 }
 
 const styles = StyleSheet.create({
@@ -127,7 +144,7 @@ const styles = StyleSheet.create({
 
     // 底部栏
     toolBarWrap: {
-        height: 440,
+        height: 40,
         flexDirection: 'row',
         alignItems: 'center',
         borderTopColor: '#ccc',
@@ -149,12 +166,5 @@ const styles = StyleSheet.create({
         flex: 1,
         color: '#fff',
         fontSize: 16,
-    },
-    cartNum: {
-        color: 'red',
-        fontSize: 11,
-        marginTop: -18,
-        marginLeft: -10,
-        backgroundColor: 'transparent',
     },
 });

@@ -2,82 +2,130 @@
  * ShopReactNative
  *
  * @author Tony Wong
- * @date 2016-09-24
+ * @date 2016-09-25
  * @email 908601756@qq.com
  * @copyright Copyright © 2016 EleTeam
  * @license The MIT License (MIT)
  */
 
-'use strict';
-
 import React, {Component} from 'react';
 import {
     StyleSheet,
-    View,
-    ListView,
     Text,
+    TextInput,
+    View,
     Image,
-    InteractionManager,
     TouchableOpacity,
+    InteractionManager,
 } from 'react-native';
-import Loading from '../components/Loading';
+import Toast from 'react-native-root-toast';
 import Header from '../components/Header';
-import Common from '../common/constants';
-import {addressList, addressCreate} from '../actions/addressActions';
+import {addressCreate, addressList} from '../actions/addressActions';
 
 export default class AddressCreatePage extends Component {
-    componentDidMount() {
-        const {dispatch, userReducer} = this.props;
-        //交互管理器在任意交互/动画完成之后，允许安排长期的运行工作. 在所有交互都完成之后安排一个函数来运行。
+    constructor(props){
+        super(props);
+        this.state = {
+            area_id: 0,
+            detail: '',
+            fullname:'',
+            telephone:'',
+        };
+    }
+
+    componentWillUnmount(){
+        // this.unsubscribe();
+    }
+
+    componentDidMount(){
+        // this.unsubscribe = MemberStore.listen(this.onLogined.bind(this));
+    }
+
+    componentWillUpdate(nextProps, nextState){
         InteractionManager.runAfterInteractions(() => {
-            let user = userReducer.user;
-            dispatch(addressList(user.access_token));
+            const {addressReducer} = this.props;
+            if (addressReducer.isToasting) {
+                Toast.show(addressReducer.message, {position:Toast.positions.CENTER});
+            }
         });
     }
 
-    render() {
-        const {addressReducer} = this.props;
-        let isLoading = addressReducer.isLoading;
-        let addresses = addressReducer.addresses;
-
+    render(){
         return (
             <View style={styles.container}>
                 <Header
                     leftIcon='angle-left'
                     leftIconAction={()=>this.props.navigator.pop()}
-                    title='收货地址'
+                    title='添加收货地址'
                 />
-                {isLoading ?
-                    <Loading /> :
-                    <View style={{flex:1,flexDirection:'column'}}>
-                        <ListView
-                            style={styles.productListWrap}
-                            dataSource={this.state.dataSource.cloneWithRows(addresses)}
-                            renderRow={this._renderRow.bind(this)}
-                            enableEmptySections={true}
-                        />
-                    </View>
-                }
+                <View style={[styles.formInput, styles.formInputSplit]}>
+                    <Image source={require('../images/user.png')} style={{width:25,height:25,resizeMode: 'contain'}}/>
+                    <TextInput
+                        placeholder='请输入收货人姓名'
+                        style={styles.loginInput}
+                        onChangeText={this._onChangeFullname.bind(this)} />
+                </View>
+                <View style={[styles.formInput, styles.formInputSplit]}>
+                    <Image source={require('../images/passicon.png')} style={{width:25,height:25,resizeMode: 'contain'}}/>
+                    <TextInput
+                        style={styles.loginInput}
+                        placeholder='请输入收货人电话'
+                        onChangeText={this._onChangeTelephone.bind(this)} />
+                </View>
+                <View style={[styles.formInput, styles.formInputSplit]}>
+                    <Image source={require('../images/passicon.png')} style={{width:25,height:25,resizeMode: 'contain'}}/>
+                    <TextInput
+                        style={styles.loginInput}
+                        placeholder='请输入详情地址'
+                        onChangeText={this._onChangeDetail.bind(this)} />
+                </View>
+                <TouchableOpacity style={styles.registerBtn} onPress={this._addressCreate.bind(this)}>
+                    <Text style={styles.registerText}>保存</Text>
+                </TouchableOpacity>
             </View>
         )
     }
 
-    _renderRow(address) {
-        return (
-            <View style={styles.productItem}>
-                <View style={styles.productRight}>
-                    <Text>{address.name}</Text>
-                </View>
-            </View>
-        );
+    _onChangeFullname(text) {
+        this.state.fullname = text;
+        // this.setState({'mobile': text});
     }
+
+    _onChangeTelephone(text){
+        this.state.telephone = text;
+        // this.setState({'password': text});
+    }
+
+    _onChangeDetail(text){
+        this.state.detail = text;
+        // this.setState({'password': text});
+    }
+
+    _addressCreate(){
+        let {telephone, fullname, detail, area_id} = this.state;
+
+        if (!fullname.length) {
+            Toast.show('请输入收货人姓名', {position:Toast.positions.CENTER});
+            return;
+        }
+        if (!telephone.length) {
+            Toast.show('请输入收货人电话', {position:Toast.positions.CENTER});
+            return;
+        }
+
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch, userReducer} = this.props;
+            let access_token = userReducer.user.access_token;
+            dispatch(addressCreate(access_token, fullname, telephone, area_id, detail));
+        });
+    };
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
     },
+
     headerWrap: {
         alignItems: 'center',
         height: 44,
@@ -89,63 +137,69 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
-    productListWrap: {
-        height: Common.window.height - 64 - 44 - 40,
+    loginWrap: {
+        backgroundColor: '#FCE9D4',
     },
-    productItem: {
-        height: 80,
-        flexDirection:'row',
-        padding: 15,
-        marginBottom: 1,
-        backgroundColor:'#fff',
+    imgWrap: {
+        flexDirection: 'row',
+        flex: 1,
     },
-    productRight: {
-        flexDirection:'column',
+    loginMain: {
+        flex:1,
     },
-    productImage: {
-        width: 60,
-        height: 60,
-        marginRight: 15,
-    },
-    productPrice: {
-        fontSize: 24,
-        color: 'red',
-    },
-    productFeaturedPrice: {
-        fontSize: 14,
-        color: '#ddd',
+    comCulture: {
+        width:320,
+        marginTop:50,
     },
 
-    // 底部栏
-    toolBarWrap: {
-        height: 440,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderTopColor: '#ccc',
-        borderTopWidth: 0.5,
+    formInput:{
+        flexDirection:'row',
+        height: 60,
+        padding: 20,
     },
-    toolBarItem: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+    formInputSplit:{
+        borderBottomWidth:1,
+        borderBottomColor:'#dbdada',
     },
-    addToCartWrap: {
+    loginInput: {
+        height: 40,
+        paddingLeft: 10,
         flex: 1,
-        backgroundColor: '#fd6161',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    addToCart: {
-        flex: 1,
-        color: '#fff',
         fontSize: 16,
     },
-    cartNum: {
-        color: 'red',
-        fontSize: 11,
-        marginTop: -18,
-        marginLeft: -10,
-        backgroundColor: 'transparent',
+
+    verifyCodeBtn: {
+        backgroundColor: '#c5523f',
+        paddingTop: 5,
+        paddingBottom: 5,
+        alignItems:'center',
+        width: 80,
+        height: 30,
+        borderRadius: 2,
+    },
+    verifyCodeText: {
+        color: '#ffffff',
+    },
+
+    registerBtn:{
+        backgroundColor: '#ff6836',
+        padding: 10,
+        alignItems: 'center',
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight: 10,
+        borderRadius: 3,
+    },
+    registerText:{
+        color:'#ffffff',
+        fontSize: 17,
+    },
+
+    registerWrap: {
+        flexDirection: 'row',
+        marginTop: 20,
+        marginBottom: 20,
+        marginLeft: 10,
+        marginRight: 10,
     },
 });
