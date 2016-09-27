@@ -16,6 +16,7 @@
 
 //公用类型
 export const kActionError                       = 'kActionError';
+export const kCommonIsToasting                  = 'kCommonIsToasting';
 
 //首页
 export const kBannerList                        = 'kBannerList';
@@ -57,6 +58,15 @@ export const kPreorderCreateReceived            = 'kPreorderCreateReceived';
 export const kPreorderIsTurnedToViewFromSync    = 'kPreorderIsTurnedToViewFromSync';
 export const kPreorderView                      = 'kPreorderView';
 export const kPreorderViewReceived              = 'kPreorderViewReceived';
+
+//订单
+export const kOrderCreate                       = 'kOrderCreate';
+export const kOrderCreateReceived               = 'kOrderCreateReceived';
+export const kOrderIsTurnedToViewFromSync       = 'kOrderIsTurnedToViewFromSync';
+export const kOrderView                         = 'kOrderView';
+export const kOrderViewReceived                 = 'kOrderViewReceived';
+export const kOrderIndex                        = 'kOrderIndex';
+export const kOrderIndexReceived                = 'kOrderIndexReceived';
 
 //地址
 export const kAddressIsToasting                 = 'kAddressIsToasting';

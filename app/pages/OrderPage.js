@@ -2,7 +2,7 @@
  * ShopReactNative
  *
  * @author Tony Wong
- * @date 2016-09-23
+ * @date 2016-09-27
  * @email 908601756@qq.com
  * @copyright Copyright © 2016 EleTeam
  * @license The MIT License (MIT)
@@ -23,12 +23,10 @@ import {
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Common from '../common/constants';
-import Toast from 'react-native-root-toast';
 import {preorderView} from '../actions/preorderActions';
-import {orderCreate} from '../actions/orderActions';
 import AddressContainer from '../containers/AddressContainer';
 
-export default class PreorderPage extends Component {
+export default class OrderPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +34,6 @@ export default class PreorderPage extends Component {
                 rowHasChanged: (row1, row2) => row1 !== row2,
                 sectionHeaderHasChanged: (section1, section2) => section1 !== section2
             }),
-            notice: '', //订单的备注
         };
     }
 
@@ -50,17 +47,7 @@ export default class PreorderPage extends Component {
         });
     }
 
-    componentWillUpdate(nextProps, nextState){
-        const {commonReducer, orderReducer} = this.props;
-        InteractionManager.runAfterInteractions(() => {
-            if (commonReducer.isToasting) {
-                Toast.show(orderReducer.message, {position:Toast.positions.CENTER});
-            }
-        });
-    }
-
     render() {
-        // alert(1);
         const {preorderReducer} = this.props;
         let isLoading = preorderReducer.isLoading;
         let preorder = preorderReducer.preorder;
@@ -104,7 +91,7 @@ export default class PreorderPage extends Component {
                         />
                         <View style={styles.toolBarWrap}>
                             <Text style={styles.cartNum}>￥{preorder.total_price}元</Text>
-                            <TouchableOpacity style={styles.toolBarItem} onPress={this._orderCreate.bind(this)}>
+                            <TouchableOpacity style={styles.toolBarItem} onPress={this._goToPayOrder.bind(this, )}>
                                 <View style={styles.addToCartWrap}>
                                     <Text style={styles.addToCart}>去支付</Text>
                                 </View>
@@ -146,23 +133,20 @@ export default class PreorderPage extends Component {
         }
     }
 
+    _submitOrder() {
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch, userReducer} = this.props;
+            let access_token = userReducer.user.access_token;
+            dispatch(addressCreate(access_token, fullname, telephone, area_id, detail));
+        });
+    }
+
     _gotoAddressList(){
         InteractionManager.runAfterInteractions(() => {
             this.props.navigator.push({
                 name: 'AddressContainer',
                 component: AddressContainer
             })
-        });
-    }
-
-    _orderCreate() {
-        InteractionManager.runAfterInteractions(() => {
-            const {dispatch, userReducer, preorderReducer} = this.props;
-            let access_token = userReducer.user.access_token;
-            let preorder_id = preorderReducer.preorder.id;
-            let address_id = preorderReducer.address.id;
-            let notice = this.state.notice;
-            dispatch(orderCreate(access_token, preorder_id, address_id, notice));
         });
     }
 }
