@@ -38,8 +38,10 @@ let homeReducer = (state = initialState, action) => {
         case types.kHomeListArticlesReceived:
             return {
                 ...state,
-                articles: action.articles,
+                //articles: action.articles,
+                articles: action.articles.length > 0 ? state.articles.concat(action.articles) : state.articles,
                 isLoading: false,
+                isRefreshing: false,
             };
         default:
             return state;
