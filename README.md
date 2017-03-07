@@ -37,9 +37,12 @@
         
     }
 
-##### 访问在线服务器:
+#### 访问在线服务器:
     取消注释, 在文件: app/common/constants_url.js: 
-    const kUrlHost = 'http://eleteamapi.ygcr8.com/v1';    //在线服务器
+    const kUrlHost = 'http://api.eleteam.com/v1';    //在线服务器
+
+#### 查看服务器是否可用
+    http://api.eleteam.com/v1/banner/list
 
 #### 安装出现问题
     1. Application Shop-React-Native has not been registered. This is either due to a require() error during initialization or failure to call AppRegistry.registerComponent
