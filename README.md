@@ -62,7 +62,6 @@
 ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/04.jpg)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/05.png)      ![](https://github.com/EleTeam/Shop-React-Native/blob/master/screenshoot/06.jpg)        
 
 ###### @author Tony Wong
-###### @email 908601756@qq.com
 ###### @copyright Copyright © 2016 EleTeam. All rights reserved.
 ###### @license The MIT License (MIT)
 
